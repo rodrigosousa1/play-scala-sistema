@@ -1,0 +1,21 @@
+@(clientes: Seq[models.Cliente])(implicit request: RequestHeader, messages: Messages) 
+
+@main(Messages("app.name")) {
+
+<table class="table table-striped">
+    <tr>
+         <th>@messages("customer.id")</th>
+         <th>@messages("customer.name")</th>
+         <th>@messages("customer.cnpj")</th>
+         <th>@messages("customer.registration")</th>
+    </tr>
+    @for(cliente <- clientes) { 
+	<tr>
+	 	<td>@cliente.id</td>
+	    <td>@cliente.razaoSocial</td>
+	    <td>@cliente.cnpj</td>
+	    <td>@cliente.inscricaoMunicipal</td>
+	</tr>
+	    }
+</table>
+}

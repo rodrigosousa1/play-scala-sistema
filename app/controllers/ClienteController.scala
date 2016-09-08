@@ -4,11 +4,17 @@ import javax.inject._
 import play.api._
 import play.api.mvc._
 import service.ClienteService
-import models.Cliente
+import models.{ Cliente, ClienteForm }
+import play.api.i18n.{MessagesApi, Messages, I18nSupport}
 import play.api.libs.concurrent.Execution.Implicits._
 
 @Singleton
-class ClienteController @Inject() (cs: ClienteService) extends Controller {
+class ClienteController @Inject() (cs: ClienteService, val messagesApi: MessagesApi) extends Controller with I18nSupport {
+
+
+  def newCliente() = Action { implicit request =>
+    Ok(views.html.customer.newCustomer(ClienteForm.form))
+  }
 
   def getCliente(id: Long) = Action.async { implicit request =>
     val cliente = cs.getCliente(id)
@@ -20,7 +26,7 @@ class ClienteController @Inject() (cs: ClienteService) extends Controller {
   def listAllClientes() = Action.async { implicit request =>
     val clientes = cs.listAllClientes
     clientes.map { clientes =>
-      Ok("Got result:" + clientes)
+      Ok(views.html.customer.list(clientes))
     }
   }
 

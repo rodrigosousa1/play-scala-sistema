@@ -1,4 +1,5 @@
 GET 		/							 controllers.IndexController.index
+GET     	/cliente/new				 controllers.ClienteController.newCliente
 POST    	/cliente					 controllers.ClienteController.addCliente
 PUT			/cliente/:id				 controllers.ClienteController.updateCliente(id: Long)
 GET     	/cliente/:id                 controllers.ClienteController.getCliente(id: Long)
