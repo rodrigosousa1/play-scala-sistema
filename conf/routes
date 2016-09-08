@@ -1,0 +1,11 @@
+GET 		/							 controllers.IndexController.index
+POST    	/cliente					 controllers.ClienteController.addCliente
+PUT			/cliente/:id				 controllers.ClienteController.updateCliente(id: Long)
+GET     	/cliente/:id                 controllers.ClienteController.getCliente(id: Long)
+DELETE    	/cliente/:id		         controllers.ClienteController.deleteCliente(id: Long)
+GET     	/clientes/all                controllers.ClienteController.listAllClientes
+
+
+
+# Map static resources from the /public folder to the /assets URL path
+GET     	/assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
