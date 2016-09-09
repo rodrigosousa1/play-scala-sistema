@@ -1,4 +1,4 @@
-@(clientes: Seq[models.Cliente])(implicit request: RequestHeader, messages: Messages) 
+@(customers: Seq[models.Customer])(implicit request: RequestHeader, messages: Messages) 
 
 @main(Messages("app.name")) {
 
@@ -9,12 +9,12 @@
          <th>@messages("customer.cnpj")</th>
          <th>@messages("customer.registration")</th>
     </tr>
-    @for(cliente <- clientes) { 
+    @for(customer <- customers) { 
 	<tr>
-	 	<td>@cliente.id</td>
-	    <td>@cliente.razaoSocial</td>
-	    <td>@cliente.cnpj</td>
-	    <td>@cliente.inscricaoMunicipal</td>
+	 	<td>@customer.id</td>
+	    <td>@customer.razaoSocial</td>
+	    <td>@customer.cnpj</td>
+	    <td>@customer.inscricaoMunicipal</td>
 	</tr>
 	    }
 </table>

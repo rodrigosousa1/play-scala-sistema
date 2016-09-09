@@ -2,6 +2,9 @@ app.name = System
 
 command.save = Save
 
+flash.success = Success
+flash.error = Error
+
 customer.new = Add new customer
 customer.new.name = Company name
 customer.new.cnpj = CNPJ

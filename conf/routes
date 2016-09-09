@@ -1,10 +1,10 @@
 GET 		/							 controllers.IndexController.index
-GET     	/cliente/new				 controllers.ClienteController.newCliente
-POST    	/cliente					 controllers.ClienteController.addCliente
-PUT			/cliente/:id				 controllers.ClienteController.updateCliente(id: Long)
-GET     	/cliente/:id                 controllers.ClienteController.getCliente(id: Long)
-DELETE    	/cliente/:id		         controllers.ClienteController.deleteCliente(id: Long)
-GET     	/clientes/all                controllers.ClienteController.listAllClientes
+GET     	/customer/new				 controllers.CustomerController.newCustomer
+POST    	/customer					 controllers.CustomerController.addCustomer
+PUT			/customer/:id				 controllers.CustomerController.updateCustomer(id: Long)
+GET     	/customer/:id                controllers.CustomerController.getCustomer(id: Long)
+DELETE    	/customer/:id		         controllers.CustomerController.deleteCustomer(id: Long)
+GET     	/customers/all               controllers.CustomerController.listAllCustomers
 
 
 

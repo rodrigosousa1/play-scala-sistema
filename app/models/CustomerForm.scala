@@ -3,15 +3,15 @@ package models
 import play.api.data._
 import play.api.data.Forms._
 
-case class ClienteFormData(razaoSocial: String, cnpj: Long, inscricaoMunicipal: Long)
+case class CustomerFormData(razaoSocial: String, cnpj: Long, inscricaoMunicipal: Long)
 
-object ClienteForm {
+object CustomerForm {
 
   val form = Form(
     mapping(
       "razaoSocial" -> nonEmptyText,
       "cnpj" -> longNumber,
       "inscricaoMunicipal" -> longNumber
-    )(ClienteFormData.apply)(ClienteFormData.unapply)
+    )(CustomerFormData.apply)(CustomerFormData.unapply)
   )
 }

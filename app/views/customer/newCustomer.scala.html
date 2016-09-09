@@ -1,13 +1,25 @@
-@(clienteForm: Form[models.ClienteFormData])(implicit request: RequestHeader, messages: Messages)
+@(customerForm: Form[models.CustomerFormData])(implicit request: RequestHeader, messages: Messages)
 
 @import b3.vertical.fieldConstructor
 
 @main(Messages("customer.new")) {
+@request.flash.get("success").map { msg =>
+<div class="alert alert-success">
+	<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong>@msg</strong>
+</div>
+}
+@request.flash.get(messages("flash.error")).map { msg =>
+<div class="alert alert-danger">
+	<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong>@msg</strong>
+</div>
+}
 	
-  @b3.form(routes.ClienteController.addCliente) {
-    @b3.text( clienteForm("razao_social"), '_label -> messages("customer.new.name"))
-    @b3.text( clienteForm("cnpj"), '_label -> messages("customer.new.cnpj"))
-    @b3.text( clienteForm("inscricao_municipal"), '_label -> messages("customer.new.registration"))
+  @b3.form(routes.CustomerController.addCustomer) {
+    @b3.text( customerForm("razaoSocial"), '_label -> messages("customer.new.name"))
+    @b3.text( customerForm("cnpj"), '_label -> messages("customer.new.cnpj"))
+    @b3.text( customerForm("inscricaoMunicipal"), '_label -> messages("customer.new.registration"))
     @b3.submit('class -> "btn btn-default"){ @messages("command.save") }
   }
 

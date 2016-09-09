@@ -2,12 +2,15 @@ app.name = Sistema
 
 command.save = Salvar
 
+flash.success = Sucesso
+flash.error = Erro
+
 customer.new = Adicionar novo cliente
 customer.new.name = Razão Social
 customer.new.cnpj = CNPJ
 customer.new.registration = Inscrição municipal
 
 customer.id = CÓDIGO
-custome.name = RAZÃO SOCIAL
+customer.name = RAZÃO SOCIAL
 customer.cnpj = CNPJ
 customer.registration = INSCRIÇÃO MUNICIPAL
