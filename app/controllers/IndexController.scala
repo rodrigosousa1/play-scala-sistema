@@ -8,6 +8,6 @@ import play.api.mvc._
 class IndexController @Inject() extends Controller {
 
   def index = Action { implicit request =>
-    Ok("Hello World!")
+    Redirect(routes.CustomerController.listAllCustomers())
   }
 }

@@ -33,7 +33,7 @@ class CustomerDAOImpl @Inject() (dbConfigProvider: DatabaseConfigProvider)(impli
   }
 
   def listAll(): Future[Seq[Customer]] = {
-    val listAllQuery = customers.result
+    val listAllQuery = customers.sortBy(_.id).result
     db.run(listAllQuery)
   }
 

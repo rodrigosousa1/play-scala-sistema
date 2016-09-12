@@ -1,8 +1,14 @@
-@(customerForm: Form[models.CustomerFormData])(implicit request: RequestHeader, messages: Messages)
+@(customerForm: Form[models.Customer], id: Option[Long] = None)(implicit request: RequestHeader, messages: Messages)
 
 @import b3.vertical.fieldConstructor
 
-@main(Messages("customer.new")) {
+@main( 
+  if(id.isEmpty){ 
+    messages("customer.new")
+  } else {
+    messages("customer.edit")
+  }) {
+
 @request.flash.get("success").map { msg =>
 <div class="alert alert-success">
 	<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
@@ -15,19 +21,29 @@
     <strong>@msg</strong>
 </div>
 }
-	<div class="content-box">
+
+<div class="content-box">
     <div class="container-fluid white-bg border-bottom">
-      <div class="headline">
-        <h2>@Messages("menu.new.customer")</h2>
-      </div>
-      @b3.form(routes.CustomerController.addCustomer) {
+        <div class="headline">
+            <h2>
+            @if(id.isEmpty){ 
+              @messages("menu.new.customer")
+            } else {
+              @messages("customer.details", customerForm("razaoSocial").value.getOrElse(""))
+            }
+          </h2>
+        </div>
+
+      @b3.form(id.map(routes.CustomerController.updateCustomer(_)).getOrElse(routes.CustomerController.addCustomer)) {
         @b3.text( customerForm("razaoSocial"), '_label -> messages("customer.new.name"))
         @b3.text( customerForm("cnpj"), '_label -> messages("customer.new.cnpj"))
         @b3.text( customerForm("inscricaoMunicipal"), '_label -> messages("customer.new.registration"))
-        @b3.submit('class -> "btn btn-default"){ @messages("command.save") }
+        @b3.free('_id -> "idFormGroup") {
+            <button type="submit" class="btn btn-primary"> @id.map(_ => messages("command.update")).getOrElse(messages("command.save")) </button>
+        }
+
       }
     </div>
   </div>
-
 }
 

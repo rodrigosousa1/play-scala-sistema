@@ -4,20 +4,28 @@ menu.customer = Cliente
 menu.new.customer = Novo cliente
 menu.list.customer = Lista de clientes
 
-option.delete = Excluir
-option.edit = Editar
+
+
+
 
 command.save = Salvar
+command.update = Atualizar
+command.delete = Excluir
+command.edit = Editar
 
 flash.success = Sucesso
 flash.error = Erro
 
+customer.edit = Editar Cliente
 customer.new = Adicionar novo cliente
 customer.new.name = Razão Social
 customer.new.cnpj = CNPJ
 customer.new.registration = Inscrição municipal
 
+customer.details = Cliente: {0}
+
 customer.id = CÓDIGO
 customer.name = RAZÃO SOCIAL
 customer.cnpj = CNPJ
 customer.registration = INSCRIÇÃO MUNICIPAL
+list.actions = AÇÕES

@@ -1,10 +1,15 @@
 GET 		/							 controllers.IndexController.index
+
 GET     	/customer/new				 controllers.CustomerController.newCustomer
+GET    		/customer/:id/edit			 controllers.CustomerController.editCustomer(id: Long)
+
 POST    	/customer					 controllers.CustomerController.addCustomer
-PUT			/customer/:id				 controllers.CustomerController.updateCustomer(id: Long)
+#PUT		/customer/:id				 controllers.CustomerController.updateCustomer(id: Long)
+POST		/customer/:id				 controllers.CustomerController.updateCustomer(id: Long)
 GET     	/customer/:id                controllers.CustomerController.getCustomer(id: Long)
 DELETE    	/customer/:id		         controllers.CustomerController.deleteCustomer(id: Long)
 GET     	/customers/all               controllers.CustomerController.listAllCustomers
+
 
 
 

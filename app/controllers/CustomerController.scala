@@ -19,7 +19,7 @@ class CustomerController @Inject() (cs: CustomerService, val messagesApi: Messag
   def getCustomer(id: Long) = Action.async { implicit request =>
     val customer = cs.getCustomer(id)
     customer.map { res =>
-      Ok("Got result: " + res.getOrElse("Not Found"))
+      Ok(views.html.customer.details(res.get))
     }
   }
 
@@ -49,8 +49,24 @@ class CustomerController @Inject() (cs: CustomerService, val messagesApi: Messag
   }
 
   def updateCustomer(id: Long) = Action.async { implicit request =>
-    val update = cs.updateCustomer(id, Customer("Updated", 5555555555555L, 333333333L, id))
-    update.map(res => Ok("Updated"))
+     CustomerForm.form.bindFromRequest.fold(
+      formWithErrors => {
+        Future.successful(BadRequest(views.html.customer.newCustomer(formWithErrors, Some(id))))
+      },
+      customerData => {
+        val updatedCustomer = Customer(customerData.razaoSocial, customerData.cnpj, customerData.inscricaoMunicipal, id)
+        cs.updateCustomer(id, updatedCustomer).map(res =>
+          Redirect(routes.CustomerController.listAllCustomers()).flashing("success" -> Messages("flash.success")))
+      })
+  }
+
+  def editCustomer(id: Long) = Action.async { implicit request =>
+    cs.getCustomer(id).map{ res => 
+      val form = CustomerForm.form.fill(res.get)
+      Ok(views.html.customer.newCustomer(form, Some(id)))
+    }
+      
+
   }
 
 }
