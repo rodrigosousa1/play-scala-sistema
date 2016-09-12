@@ -1,5 +1,12 @@
 app.name = Sistema
 
+menu.customer = Cliente
+menu.new.customer = Novo cliente
+menu.list.customer = Lista de clientes
+
+option.delete = Excluir
+option.edit = Editar
+
 command.save = Salvar
 
 flash.success = Sucesso

@@ -44,7 +44,7 @@ class CustomerController @Inject() (cs: CustomerService, val messagesApi: Messag
 
   def deleteCustomer(id: Long) = Action.async { implicit request =>
     val delete = cs.deleteCustomer(id)
-    delete.map(res => Ok("Success"))
+    delete.map(res => Redirect(routes.CustomerController.listAllCustomers))
 
   }
 

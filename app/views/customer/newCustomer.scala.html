@@ -15,13 +15,19 @@
     <strong>@msg</strong>
 </div>
 }
-	
-  @b3.form(routes.CustomerController.addCustomer) {
-    @b3.text( customerForm("razaoSocial"), '_label -> messages("customer.new.name"))
-    @b3.text( customerForm("cnpj"), '_label -> messages("customer.new.cnpj"))
-    @b3.text( customerForm("inscricaoMunicipal"), '_label -> messages("customer.new.registration"))
-    @b3.submit('class -> "btn btn-default"){ @messages("command.save") }
-  }
+	<div class="content-box">
+    <div class="container-fluid white-bg border-bottom">
+      <div class="headline">
+        <h2>@Messages("menu.new.customer")</h2>
+      </div>
+      @b3.form(routes.CustomerController.addCustomer) {
+        @b3.text( customerForm("razaoSocial"), '_label -> messages("customer.new.name"))
+        @b3.text( customerForm("cnpj"), '_label -> messages("customer.new.cnpj"))
+        @b3.text( customerForm("inscricaoMunicipal"), '_label -> messages("customer.new.registration"))
+        @b3.submit('class -> "btn btn-default"){ @messages("command.save") }
+      }
+    </div>
+  </div>
 
 }
 

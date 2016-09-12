@@ -1,21 +1,35 @@
 @(customers: Seq[models.Customer])(implicit request: RequestHeader, messages: Messages) 
 
-@main(Messages("app.name")) {
+@main(Messages("menu.list.customer")) {
 
-<table class="table table-striped">
-    <tr>
-         <th>@messages("customer.id")</th>
-         <th>@messages("customer.name")</th>
-         <th>@messages("customer.cnpj")</th>
-         <th>@messages("customer.registration")</th>
-    </tr>
-    @for(customer <- customers) { 
-	<tr>
-	 	<td>@customer.id</td>
-	    <td>@customer.razaoSocial</td>
-	    <td>@customer.cnpj</td>
-	    <td>@customer.inscricaoMunicipal</td>
-	</tr>
-	    }
-</table>
+<div class="content-box">
+	<div class="container-fluid white-bg border-bottom"> 
+		<div class="headline">
+			<h2>@messages("menu.list.customer")</h2>
+		</div>    
+		<table class="table table-condensed table-hover">
+			<thead>
+			    <tr>
+			         <th>@messages("customer.id")</th>
+			         <th>@messages("customer.name")</th>
+			         <th>@messages("customer.cnpj")</th>
+			         <th>@messages("customer.registration")</th>
+			         <th colspan="2"></th>
+			    </tr>
+		    </thead>
+		    @for(customer <- customers) {
+		    
+				<tr>
+				 	<td>@customer.id</td>
+				    <td>@customer.razaoSocial</td>
+				    <td>@customer.cnpj</td>
+				    <td>@customer.inscricaoMunicipal</td>
+				    <td><a href="#">@messages("option.edit")</a></td>
+					<td><a href="#" onClick="$.delete('@routes.CustomerController.deleteCustomer(customer.id)', function(data) {  location.reload();  });">@messages("option.delete")</a></td>
+				    
+				</tr>	
+			    }
+		</table>
+	</div>
+</div>
 }

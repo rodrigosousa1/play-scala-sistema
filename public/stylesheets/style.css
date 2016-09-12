@@ -1,0 +1,116 @@
+body {
+    background-color: #e8e8ea;
+    font-family: "Open Sans", Arial, sans-serif;
+    font-size: 13px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: #656565;
+    margin-top: 5px;
+    text-shadow: none;
+    font-weight: normal;
+    font-family: "Open Sans", Arial, sans-serif;
+}
+
+.content-header h2 {
+    font-size: 26px;
+    font-weight: 100;
+
+}
+
+.headline {
+    display: block;
+    margin: 8px 0px 18px;
+    border-bottom: 1px solid #E4E9F0;
+}
+
+.headline h2,
+.headline h3,
+.headline h4 {
+    margin: 0px 0px -2px;
+    padding-bottom: 5px;
+    display: inline-block;
+    border-bottom: 2px solid #ef6551;
+}
+
+.nav-side-fixed {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 240px;
+    z-index: 4;
+    background-color: #14161f;
+}
+
+.content {
+    margin-top: 45px;
+    margin-left: 240px;
+}
+
+.nav > li {
+    margin: 0;
+    padding: 0;
+    position: relative;
+    display: block;
+}
+
+.nav > li > a {
+    color: #a0a0a0;
+    text-decoration: none;
+    font-weight: 300;
+    transition: color .15s, background .15s;
+}
+
+.nav > li > a:hover,
+.nav > li > a:focus {
+    background-color: #0f1017;
+    color: #fff;
+}
+
+.nav-toggled > a {
+    background-color: #0f1017;
+    box-shadow: 3px 0 0 #416da4 inset;
+}
+
+.nav .nav-collapsed > li > a {
+    background-color: #0f1017;
+    box-shadow: 3px 0 0 #416da4 inset;
+}
+
+.nav .nav-collapsed > li > a > span {
+    margin-left: 15px;
+    color: #a0a0a0;
+}
+
+.nav .nav-collapsed > li > a > span:hover,
+.nav .nav-collapsed > li > a > span:focus {
+    color: #fff;
+}
+
+.nav-header {
+    min-height: 150px;
+}
+
+.content-header {
+    min-height: 330px; /*verificar*/
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+.white-bg {
+    background-color: #fff;
+}
+
+.content-box {
+    padding: 15px 15px 15px 15px;
+}
+
+.border-bottom {
+    border-bottom: 1px solid #dedede;
+}
