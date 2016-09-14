@@ -36,7 +36,7 @@ class CustomerController @Inject() (cs: CustomerService, val messagesApi: Messag
         Future.successful(BadRequest(views.html.customer.newCustomer(formWithErrors)))
       },
       customerData => {
-        val newCustomer = Customer(customerData.razaoSocial, customerData.cnpj, customerData.inscricaoMunicipal)
+        val newCustomer = Customer(customerData.name, customerData.cnpj, customerData.registration)
         cs.addCustomer(newCustomer).map(res =>
           Redirect(routes.CustomerController.newCustomer()).flashing("success" -> Messages("flash.success")))
       })
@@ -54,7 +54,7 @@ class CustomerController @Inject() (cs: CustomerService, val messagesApi: Messag
         Future.successful(BadRequest(views.html.customer.newCustomer(formWithErrors, Some(id))))
       },
       customerData => {
-        val updatedCustomer = Customer(customerData.razaoSocial, customerData.cnpj, customerData.inscricaoMunicipal, id)
+        val updatedCustomer = Customer(customerData.name, customerData.cnpj, customerData.registration, id)
         cs.updateCustomer(id, updatedCustomer).map(res =>
           Redirect(routes.CustomerController.listAllCustomers()).flashing("success" -> Messages("flash.success")))
       })
@@ -62,11 +62,11 @@ class CustomerController @Inject() (cs: CustomerService, val messagesApi: Messag
 
   def editCustomer(id: Long) = Action.async { implicit request =>
     cs.getCustomer(id).map{ res => 
-      val form = CustomerForm.form.fill(res.get)
+      val formData = CustomerForm.toCustomerFormData(res.get)
+      val form = CustomerForm.form.fill(formData)
       Ok(views.html.customer.newCustomer(form, Some(id)))
     }
-      
-
   }
+
 
 }

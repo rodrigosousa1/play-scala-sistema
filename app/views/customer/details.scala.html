@@ -1,28 +1,35 @@
-@(customer: models.Customer)(implicit request: RequestHeader, messages: Messages) 
+@(customer: (models.Customer, Seq[Option[models.Phone]]))(implicit request: RequestHeader, messages: Messages) 
 
-@main(messages("customer.details", customer.razaoSocial)){
+@main(messages("customer.details", customer._1.name)){
 <div class="content-box">
     <div class="container-fluid white-bg border-bottom">
         <div class="headline">
           <h2>
-            @messages("customer.details", customer.razaoSocial)
+            @messages("customer.details", customer._1.name)
           </h2>
         </div>
         <dl class="dl-horizontal">
-  			<dt>@messages("customer.name")</dt>
-  			<dd>@customer.razaoSocial</dd>
-		</dl>
-		<dl class="dl-horizontal">
-  			<dt>@messages("customer.cnpj")</dt>
-  			<dd>@customer.cnpj</dd>
-		</dl>
-		<dl class="dl-horizontal">
-  			<dt>@messages("customer.registration")</dt>
-  			<dd>@customer.inscricaoMunicipal</dd>
-		</dl>
-			<div>
-        		<a href="@routes.CustomerController.editCustomer(customer.id)" class="btn btn-primary">@messages("command.edit")<span class="glyphicon glyphicon-edit"></span></a>
-        	</div>
+        <dt>@messages("customer.name")</dt>
+        <dd>@customer._1.name</dd>
+    </dl>
+    <dl class="dl-horizontal">
+        <dt>@messages("customer.cnpj")</dt>
+        <dd>@customer._1.cnpj</dd>
+    </dl>
+    <dl class="dl-horizontal">
+        <dt>@messages("customer.registration")</dt>
+        <dd>@customer._1.registration</dd>
+    </dl>
+    <dl class="dl-horizontal">
+        <dt>@messages("customer.phone")</dt>
+        @for(c <- customer._2) {
+          <dd>@c.map(_.number).getOrElse(messages("field.empty"))</dd>
+        }
+        
+    </dl>
+      <div>
+            <a href="@routes.CustomerController.editCustomer(customer._1.id)" class="btn btn-primary">@messages("command.edit")<span class="glyphicon glyphicon-edit"></span></a>
+          </div>
         </div>
     </div>
 </div>

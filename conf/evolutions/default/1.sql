@@ -1,15 +1,15 @@
-# Cliente schema
+# Customer schema
 # 
 #  --- !Ups
 
-CREATE TABLE "public"."cliente" (
-"id" SERIAL NOT NULL PRIMARY KEY,
-"razao_social" varchar(80) COLLATE "default" NOT NULL,
+CREATE TABLE "public"."customer" (
+"id" serial8 NOT NULL PRIMARY KEY,
+"name" varchar(80) COLLATE "default" NOT NULL,
 "cnpj" int8 NOT NULL,
-"inscricao_municipal" int8 NOT NULL
+"registration" int8 NOT NULL
 )
 
 
 # --- !Downs
 
-DROP TABLE "public".cliente
+DROP TABLE "public".customer

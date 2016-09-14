@@ -1,4 +1,4 @@
-@(customers: Seq[models.Customer])(implicit request: RequestHeader, messages: Messages) 
+@(customers: Seq[(models.Customer, Seq[Option[models.Phone]])])(implicit request: RequestHeader, messages: Messages) 
 
 @main(messages("menu.list.customer")) {
 
@@ -10,23 +10,26 @@
 		<table class="table table-hover">
 			<thead>
 			    <tr>
-			         <th>@messages("customer.id")</th>
-			         <th>@messages("customer.name")</th>
-			         <th>@messages("customer.cnpj")</th>
-			         <th>@messages("customer.registration")</th>
-			         <th colspan="3">@messages("list.actions")</th>
+			         <th>@messages("customer.table.id")</th>
+			         <th>@messages("customer.table.name")</th>
+			         <th>@messages("customer.table.cnpj")</th>
+			         <th>@messages("customer.table.registration")</th>
+			         <th>@messages("customer.table.phone")</th>
+			         <th colspan="3">@messages("table.actions")</th>
 			    </tr>
 		    </thead>
+
 		    @for(customer <- customers) {
 				<tr>
-				 	<td>@customer.id</td>
-				    <td>@customer.razaoSocial</td>
-				    <td>@customer.cnpj</td>
-				    <td>@customer.inscricaoMunicipal</td>
-				    <td><a href="@routes.CustomerController.getCustomer(customer.id)"><span class="glyphicon glyphicon-search"></span></a></td>
-				    <td><a href="@routes.CustomerController.editCustomer(customer.id)"><span class="glyphicon glyphicon-edit"></span></a></td>
+				 	<td>@customer._1.id</td>
+				    <td>@customer._1.name</td>
+				    <td>@customer._1.cnpj</td>
+				    <td>@customer._1.registration</td>
+				    <td>@customer._2.head.map(_.number).getOrElse(messages("field.empty"))</td>
+				    <td><a href="@routes.CustomerController.getCustomer(customer._1.id)"><span class="glyphicon glyphicon-search"></span></a></td>
+				    <td><a href="@routes.CustomerController.editCustomer(customer._1.id)"><span class="glyphicon glyphicon-edit"></span></a></td>
 				    <td>
-						<a href="#" onClick="$.delete('@routes.CustomerController.deleteCustomer(customer.id)', function(data) {  location.reload();  });">
+						<a href="#" onClick="$.delete('@routes.CustomerController.deleteCustomer(customer._1.id)', function(data) {  location.reload();  });">
 							<span class="glyphicon glyphicon-trash"></span>
 						</a>
 					</td>    

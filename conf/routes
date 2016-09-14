@@ -10,8 +10,5 @@ GET     	/customer/:id                controllers.CustomerController.getCustomer
 DELETE    	/customer/:id		         controllers.CustomerController.deleteCustomer(id: Long)
 GET     	/customers/all               controllers.CustomerController.listAllCustomers
 
-
-
-
 # Map static resources from the /public folder to the /assets URL path
 GET     	/assets/*file               controllers.Assets.versioned(path="/public", file: Asset)

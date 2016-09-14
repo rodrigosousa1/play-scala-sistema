@@ -1,7 +1,7 @@
 package dao
 
 import javax.inject._
-import models.Customer
+import models.{ Customer, Phone }
 import play.api.db.slick.DatabaseConfigProvider
 import slick.driver.JdbcProfile
 import scala.concurrent.Future
@@ -15,25 +15,47 @@ class CustomerDAOImpl @Inject() (dbConfigProvider: DatabaseConfigProvider)(impli
   import dbConfig._
   import driver.api._
 
-  class CustomerTable(tag: Tag) extends Table[Customer](tag, "cliente") {
+  class CustomerTable(tag: Tag) extends Table[Customer](tag, "customer") {
     def id = column[Long]("id", O.PrimaryKey, O.AutoInc)
-    def razaoSocial = column[String]("razao_social")
+    def name = column[String]("name")
     def cnpj = column[Long]("cnpj")
-    def inscricaoMunicipal = column[Long]("inscricao_municipal")
+    def registration = column[Long]("registration")
 
-    def * = (razaoSocial, cnpj, inscricaoMunicipal, id) <>
+    def * = (name, cnpj, registration, id) <>
       (Customer.tupled, Customer.unapply)
   }
 
-  implicit val customers = TableQuery[CustomerTable]
+  class PhoneTable(tag: Tag) extends Table[Phone](tag, "phone") {
+    def id = column[Long]("id", O.PrimaryKey, O.AutoInc)
+    def customerId = column[Long]("customer_id")
+    def number = column[Long]("number")
 
-  def get(id: Long): Future[Option[Customer]] = {
-    val getQuery = customers.filter(_.id === id).result.headOption
-    db.run(getQuery)
+    def * = (customerId, number, id) <>
+      (Phone.tupled, Phone.unapply)
+
+    def customer = foreignKey("customer_fk", customerId, customers)(_.id, onDelete = ForeignKeyAction.Cascade)
+
   }
 
-  def listAll(): Future[Seq[Customer]] = {
-    val listAllQuery = customers.sortBy(_.id).result
+  implicit val customers = TableQuery[CustomerTable]
+  implicit val phones = TableQuery[PhoneTable]
+
+  def get(id: Long): Future[Option[(Customer, Seq[Option[Phone]])]] = {
+    val getQuery = customers.joinLeft(phones).on(_.id === _.customerId).
+      filter { case (customer, phone) => customer.id === id }.result.map {
+        _.groupBy(_._1).map {
+          case (c, p) => (c, p.map(_._2))
+        }.to[Seq].headOption
+      }
+    db.run(getQuery)
+  }
+  def listAll(): Future[Seq[(Customer, Seq[Option[Phone]])]] = {
+    val listAllQuery = customers.joinLeft(phones).on(_.id === _.customerId).result.map {
+      _.groupBy(_._1).map {
+        case (c, p) => (c, p.map(_._2))
+      }.to[Seq]
+    }
+
     db.run(listAllQuery)
   }
 
@@ -53,5 +75,6 @@ class CustomerDAOImpl @Inject() (dbConfigProvider: DatabaseConfigProvider)(impli
     val updateQuery = customers.filter(_.id === id).update(customer)
     db.run(updateQuery)
   }
+
 
 }

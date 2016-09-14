@@ -15,16 +15,23 @@ command.edit = Edit
 flash.success = Success
 flash.error = Error
 
+field.empty = None
+
+
 customer.edit = Edit customer
 customer.new = Add new customer
-customer.new.name = Company name
-customer.new.cnpj = CNPJ
-customer.new.registration = Municipal registration
+customer.name = Company name
+customer.cnpj = CNPJ
+customer.registration = Municipal registration
+customer.phone = Phone
 
 customer.details = Customer: {0}
 
-customer.id = ID
-customer.name = COMPANY NAME
-customer.cnpj = CNPJ
-customer.registration = MUNICIPAL REGISTRATION
-list.actions = ACTIONS
+customer.table.id = ID
+customer.table.name = COMPANY NAME
+customer.table.cnpj = CNPJ
+customer.table.registration = MUNICIPAL REGISTRATION
+customer.table.phone = PHONE
+
+
+table.actions = ACTIONS

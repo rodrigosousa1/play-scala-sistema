@@ -1,4 +1,4 @@
-@(customerForm: Form[models.Customer], id: Option[Long] = None)(implicit request: RequestHeader, messages: Messages)
+@(customerForm: Form[models.CustomerFormData], id: Option[Long] = None)(implicit request: RequestHeader, messages: Messages)
 
 @import b3.vertical.fieldConstructor
 
@@ -27,17 +27,18 @@
         <div class="headline">
             <h2>
             @if(id.isEmpty){ 
-              @messages("menu.new.customer")
+              @messages("menu.customer")
             } else {
-              @messages("customer.details", customerForm("razaoSocial").value.getOrElse(""))
+              @messages("customer.details", customerForm("name").value.getOrElse(""))
             }
           </h2>
         </div>
 
       @b3.form(id.map(routes.CustomerController.updateCustomer(_)).getOrElse(routes.CustomerController.addCustomer)) {
-        @b3.text( customerForm("razaoSocial"), '_label -> messages("customer.new.name"))
-        @b3.text( customerForm("cnpj"), '_label -> messages("customer.new.cnpj"))
-        @b3.text( customerForm("inscricaoMunicipal"), '_label -> messages("customer.new.registration"))
+        @b3.text( customerForm("name"), '_label -> messages("customer.name"))
+        @b3.text( customerForm("cnpj"), '_label -> messages("customer.cnpj"))
+        @b3.text( customerForm("registration"), '_label -> messages("customer.registration"))
+        @b3.text( customerForm("phones[0].number"), '_label -> messages("customer.phone"))
         @b3.free('_id -> "idFormGroup") {
             <button type="submit" class="btn btn-primary"> @id.map(_ => messages("command.update")).getOrElse(messages("command.save")) </button>
         }

@@ -2,17 +2,17 @@ package service
 
 import javax.inject._
 import dao.CustomerDAO
-import models.Customer
+import models.{ Customer, Phone }
 import scala.concurrent.Future
 
 @Singleton
 class CustomerServiceImpl @Inject() (customerDAO: CustomerDAO) extends CustomerService {
 
-  def getCustomer(id: Long): Future[Option[Customer]] = {
+  def getCustomer(id: Long): Future[Option[(Customer, Seq[Option[Phone]])]] = {
     customerDAO.get(id)
   }
 
-  def listAllCustomers(): Future[Seq[Customer]] = {
+  def listAllCustomers(): Future[Seq[(Customer, Seq[Option[Phone]])]] = {
     customerDAO.listAll
   }
 
@@ -27,4 +27,5 @@ class CustomerServiceImpl @Inject() (customerDAO: CustomerDAO) extends CustomerS
   def updateCustomer(id: Long, customer: Customer): Future[Int] = {
     customerDAO.update(id, customer)
   }
+
 }
