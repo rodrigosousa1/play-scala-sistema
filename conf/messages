@@ -24,6 +24,7 @@ customer.name = Company name
 customer.cnpj = CNPJ
 customer.registration = Municipal registration
 customer.phone = Phone
+customer.phones = Phone {0}
 
 customer.details = Customer: {0}
 

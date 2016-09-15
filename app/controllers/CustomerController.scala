@@ -5,7 +5,7 @@ import play.api._
 import play.api.mvc._
 import service.CustomerService
 import scala.concurrent.Future
-import models.{ Customer, CustomerForm }
+import models.{ Customer, CustomerForm, Phone }
 import play.api.i18n.{ MessagesApi, Messages, I18nSupport }
 import play.api.libs.concurrent.Execution.Implicits._
 
@@ -35,10 +35,14 @@ class CustomerController @Inject() (cs: CustomerService, val messagesApi: Messag
       formWithErrors => {
         Future.successful(BadRequest(views.html.customer.newCustomer(formWithErrors)))
       },
-      customerData => {
-        val newCustomer = Customer(customerData.name, customerData.cnpj, customerData.registration)
-        cs.addCustomer(newCustomer).map(res =>
-          Redirect(routes.CustomerController.newCustomer()).flashing("success" -> Messages("flash.success")))
+      data => {
+        val newCustomer = Customer(data.name, data.cnpj, data.registration)
+        val phones = data.phones
+        cs.addCustomer(newCustomer).map { id =>
+          val newPhones = phones.flatMap(_.map(p => Phone(id, p.number))).to[List] 
+          cs.addPhone(newPhones)
+          Redirect(routes.CustomerController.newCustomer()).flashing("success" -> Messages("flash.success"))
+        }
       })
   }
 
@@ -49,24 +53,24 @@ class CustomerController @Inject() (cs: CustomerService, val messagesApi: Messag
   }
 
   def updateCustomer(id: Long) = Action.async { implicit request =>
-     CustomerForm.form.bindFromRequest.fold(
+    CustomerForm.form.bindFromRequest.fold(
       formWithErrors => {
         Future.successful(BadRequest(views.html.customer.newCustomer(formWithErrors, Some(id))))
       },
-      customerData => {
-        val updatedCustomer = Customer(customerData.name, customerData.cnpj, customerData.registration, id)
+      data => {
+        val updatedCustomer = Customer(data.name, data.cnpj, data.registration, id)
+        val phones = data.phones
         cs.updateCustomer(id, updatedCustomer).map(res =>
           Redirect(routes.CustomerController.listAllCustomers()).flashing("success" -> Messages("flash.success")))
       })
   }
 
   def editCustomer(id: Long) = Action.async { implicit request =>
-    cs.getCustomer(id).map{ res => 
+    cs.getCustomer(id).map { res =>
       val formData = CustomerForm.toCustomerFormData(res.get)
       val form = CustomerForm.form.fill(formData)
       Ok(views.html.customer.newCustomer(form, Some(id)))
     }
   }
-
 
 }

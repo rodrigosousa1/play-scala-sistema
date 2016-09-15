@@ -38,6 +38,7 @@ class CustomerDAOImpl @Inject() (dbConfigProvider: DatabaseConfigProvider)(impli
   }
 
   implicit val customers = TableQuery[CustomerTable]
+  implicit val customersAutoInc = customers returning customers.map(_.id)
   implicit val phones = TableQuery[PhoneTable]
 
   def get(id: Long): Future[Option[(Customer, Seq[Option[Phone]])]] = {
@@ -59,11 +60,9 @@ class CustomerDAOImpl @Inject() (dbConfigProvider: DatabaseConfigProvider)(impli
     db.run(listAllQuery)
   }
 
-  def add(customer: Customer): Future[String] = {
-    val insertQuery = customers += customer
-    db.run(insertQuery).map(res => "Successful").recover {
-      case ex: Exception => ex.getCause.getMessage
-    }
+  def add(customer: Customer): Future[Long] = {
+    val insertQuery = customersAutoInc += customer
+    db.run(insertQuery)
   }
 
   def delete(id: Long): Future[Int] = {
@@ -74,6 +73,11 @@ class CustomerDAOImpl @Inject() (dbConfigProvider: DatabaseConfigProvider)(impli
   def update(id: Long, customer: Customer): Future[Int] = {
     val updateQuery = customers.filter(_.id === id).update(customer)
     db.run(updateQuery)
+  }
+
+  def add(phone: List[Phone]): Future[Option[Int]] = {
+    val insertQuery = phones ++= phone
+    db.run(insertQuery)
   }
 
 

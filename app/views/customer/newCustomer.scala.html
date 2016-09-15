@@ -38,7 +38,14 @@
         @b3.text( customerForm("name"), '_label -> messages("customer.name"))
         @b3.text( customerForm("cnpj"), '_label -> messages("customer.cnpj"))
         @b3.text( customerForm("registration"), '_label -> messages("customer.registration"))
-        @b3.text( customerForm("phones[0].number"), '_label -> messages("customer.phone"))
+        @if(customerForm("phones").indexes.isEmpty){
+          @b3.text( customerForm("phones[0].number"), '_label -> messages("customer.phone"))
+        }
+        @for(i <- customerForm("phones").indexes) {
+          @b3.text( customerForm(s"phones[$i].number"), '_label -> messages("customer.phones", i+1))
+        }
+        
+        
         @b3.free('_id -> "idFormGroup") {
             <button type="submit" class="btn btn-primary"> @id.map(_ => messages("command.update")).getOrElse(messages("command.save")) </button>
         }

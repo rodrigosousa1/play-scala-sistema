@@ -16,7 +16,7 @@ class CustomerServiceImpl @Inject() (customerDAO: CustomerDAO) extends CustomerS
     customerDAO.listAll
   }
 
-  def addCustomer(customer: Customer): Future[String] = {
+  def addCustomer(customer: Customer): Future[Long] = {
     customerDAO.add(customer)
   }
 
@@ -26,6 +26,10 @@ class CustomerServiceImpl @Inject() (customerDAO: CustomerDAO) extends CustomerS
 
   def updateCustomer(id: Long, customer: Customer): Future[Int] = {
     customerDAO.update(id, customer)
+  }
+
+  def addPhone(phone: List[Phone]): Future[Option[Int]] = {
+    customerDAO.add(phone)
   }
 
 }

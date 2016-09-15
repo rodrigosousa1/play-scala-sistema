@@ -17,25 +17,25 @@
 	        </div>
 	        <ul class="nav">
 	            <li class="nav-toggled">
-	                <a data-toggle="collapse" href="#collapse1">@messages("menu.customer")</a>
+	                <a href="@routes.CustomerController.listAllCustomers()">Customers</a>
+	            </li>
+	            <li>
+	                <a data-toggle="collapse" href="#collapse1">Quote</a>
 	            </li>
 	            <div id="collapse1" class="panel-collapse collapse">
 	                <ul class="nav nav-collapsed">
 	                    <li>
-	                        <a href="@routes.CustomerController.newCustomer()">
-	                            <span>@messages("menu.new.customer")</span>
+	                        <a href="#">
+	                            <span>Option</span>
 	                        </a>
 	                    </li>
 	                    <li>
-	                        <a href="@routes.CustomerController.listAllCustomers()">
-	                            <span>@messages("menu.list.customer")</span>
+	                        <a href="">
+	                            <span>Option</span>
 	                        </a>
 	                    </li>
 	                </ul>
 	            </div>
-	            <li>
-	                <a href="#">Quote</a>
-	            </li>
 	        </ul>
 	    </nav>
 	     <div class="content">

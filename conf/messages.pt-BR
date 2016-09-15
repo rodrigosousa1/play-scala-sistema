@@ -21,6 +21,7 @@ customer.name = Razão Social
 customer.cnpj = CNPJ
 customer.registration = Inscrição municipal
 customer.phone = Telefone
+customer.phones = Telefone {0}
 
 customer.details = Cliente: {0}
 
