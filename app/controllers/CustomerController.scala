@@ -36,11 +36,9 @@ class CustomerController @Inject() (cs: CustomerService, val messagesApi: Messag
         Future.successful(BadRequest(views.html.customer.newCustomer(formWithErrors)))
       },
       data => {
-        val newCustomer = Customer(data.name, data.cnpj, data.registration)
-        val phones = data.phones
-        cs.addCustomer(newCustomer).map { id =>
-          val newPhones = phones.flatMap(_.map(p => Phone(id, p.number))).to[List] 
-          cs.addPhone(newPhones)
+        val newCustomer = data.customer
+        val newPhones = data.phones.flatMap(_.to[List])
+        cs.add(newCustomer, newPhones).map { res =>
           Redirect(routes.CustomerController.newCustomer()).flashing("success" -> Messages("flash.success"))
         }
       })
@@ -58,10 +56,9 @@ class CustomerController @Inject() (cs: CustomerService, val messagesApi: Messag
         Future.successful(BadRequest(views.html.customer.newCustomer(formWithErrors, Some(id))))
       },
       data => {
-        val updatedCustomer = Customer(data.name, data.cnpj, data.registration, id)
-        val phones = data.phones
-        cs.updateCustomer(id, updatedCustomer).map(res =>
-          Redirect(routes.CustomerController.listAllCustomers()).flashing("success" -> Messages("flash.success")))
+        val updatedCustomer = data.customer
+        val updatedPhones = data.phones.flatMap(_.to[List])
+        cs.update(id, updatedCustomer, updatedPhones).map(res => Redirect(routes.CustomerController.listAllCustomers()).flashing("success" -> Messages("flash.success")))
       })
   }
 

@@ -32,4 +32,12 @@ class CustomerServiceImpl @Inject() (customerDAO: CustomerDAO) extends CustomerS
     customerDAO.add(phone)
   }
 
+  def add(customer: Customer, phones: Seq[Phone]): Future[Option[Int]] = {
+    customerDAO.addCustomerWithPhone(customer, phones)
+  }
+
+  def update(id: Long, customer: Customer, phones: Seq[Phone]): Future[Int] = {
+    customerDAO.updateCustomerWithPhone(id, customer, phones)
+  }
+
 }

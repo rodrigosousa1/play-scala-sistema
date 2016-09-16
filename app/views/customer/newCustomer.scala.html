@@ -35,21 +35,20 @@
         </div>
 
       @b3.form(id.map(routes.CustomerController.updateCustomer(_)).getOrElse(routes.CustomerController.addCustomer)) {
-        @b3.text( customerForm("name"), '_label -> messages("customer.name"))
-        @b3.text( customerForm("cnpj"), '_label -> messages("customer.cnpj"))
-        @b3.text( customerForm("registration"), '_label -> messages("customer.registration"))
+        @b3.text( customerForm("customer.id"), '_class -> "hide-field", 'readonly -> true)
+        @b3.text( customerForm("customer.name"), '_label -> messages("customer.name"))
+        @b3.text( customerForm("customer.cnpj"), '_label -> messages("customer.cnpj"))
+        @b3.text( customerForm("customer.registration"), '_label -> messages("customer.registration"))
         @if(customerForm("phones").indexes.isEmpty){
           @b3.text( customerForm("phones[0].number"), '_label -> messages("customer.phone"))
+          <input type="text" id="phones_0_customerId" name="phones[0].customerId" value='@customerForm("customer.id").value' class="form-control hide-field" readonly>
         }
         @for(i <- customerForm("phones").indexes) {
           @b3.text( customerForm(s"phones[$i].number"), '_label -> messages("customer.phones", i+1))
+          @b3.text( customerForm(s"phones[$i].id"), '_class -> "hide-field", 'readonly -> true)
+          @b3.text( customerForm(s"phones[$i].customerId"), '_class -> "hide-field", 'readonly -> true)
         }
-        
-        
-        @b3.free('_id -> "idFormGroup") {
-            <button type="submit" class="btn btn-primary"> @id.map(_ => messages("command.update")).getOrElse(messages("command.save")) </button>
-        }
-
+        <button type="submit" class="btn btn-primary"> @id.map(_ => messages("command.update")).getOrElse(messages("command.save")) </button>
       }
     </div>
   </div>

@@ -33,16 +33,16 @@ class CustomerDAOImpl @Inject() (dbConfigProvider: DatabaseConfigProvider)(impli
     def * = (customerId, number, id) <>
       (Phone.tupled, Phone.unapply)
 
-    def customer = foreignKey("customer_fk", customerId, customers)(_.id, onDelete = ForeignKeyAction.Cascade)
+    def customer = foreignKey("customer_fk", customerId, customersQuery)(_.id, onDelete = ForeignKeyAction.Cascade)
 
   }
 
-  implicit val customers = TableQuery[CustomerTable]
-  implicit val customersAutoInc = customers returning customers.map(_.id)
-  implicit val phones = TableQuery[PhoneTable]
+  implicit val customersQuery = TableQuery[CustomerTable]
+  implicit val customersAutoInc = customersQuery returning customersQuery.map(_.id)
+  implicit val phonesQuery = TableQuery[PhoneTable]
 
   def get(id: Long): Future[Option[(Customer, Seq[Option[Phone]])]] = {
-    val getQuery = customers.joinLeft(phones).on(_.id === _.customerId).
+    val getQuery = customersQuery.joinLeft(phonesQuery).on(_.id === _.customerId).
       filter { case (customer, phone) => customer.id === id }.result.map {
         _.groupBy(_._1).map {
           case (c, p) => (c, p.map(_._2))
@@ -50,8 +50,9 @@ class CustomerDAOImpl @Inject() (dbConfigProvider: DatabaseConfigProvider)(impli
       }
     db.run(getQuery)
   }
+
   def listAll(): Future[Seq[(Customer, Seq[Option[Phone]])]] = {
-    val listAllQuery = customers.joinLeft(phones).on(_.id === _.customerId).result.map {
+    val listAllQuery = customersQuery.joinLeft(phonesQuery).on(_.id === _.customerId).result.map {
       _.groupBy(_._1).map {
         case (c, p) => (c, p.map(_._2))
       }.to[Seq]
@@ -66,19 +67,42 @@ class CustomerDAOImpl @Inject() (dbConfigProvider: DatabaseConfigProvider)(impli
   }
 
   def delete(id: Long): Future[Int] = {
-    val deleteQuery = customers.filter(_.id === id).delete
+    val deleteQuery = customersQuery.filter(_.id === id).delete
     db.run(deleteQuery)
   }
 
   def update(id: Long, customer: Customer): Future[Int] = {
-    val updateQuery = customers.filter(_.id === id).update(customer)
+    val updateQuery = customersQuery.filter(_.id === id).update(customer)
     db.run(updateQuery)
   }
 
   def add(phone: List[Phone]): Future[Option[Int]] = {
-    val insertQuery = phones ++= phone
+    val insertQuery = phonesQuery ++= phone
     db.run(insertQuery)
   }
 
+  def addCustomerWithPhone(customer: Customer, phones: Seq[Phone]): Future[Option[Int]] = {
+
+    val insertCustomer = customersAutoInc += customer
+
+    def insertPhone(id: Long) = {
+      val phonesList = phones.map(p => Phone(id, p.number)).to[List]
+      phonesQuery ++= phonesList
+    }
+
+    val insertQuery = insertCustomer.flatMap { id => insertPhone(id) }
+    db.run(insertQuery.transactionally)
+  }
+
+  def updateCustomerWithPhone(id: Long, customer: Customer, phones: Seq[Phone]): Future[Int] = {
+    val updateCustomerQuery = customersQuery.filter(_.id === id).update(customer)
+
+    for (phone <- phones) {
+      db.run(phonesQuery.insertOrUpdate(phone))
+    }
+
+    db.run { updateCustomerQuery }
+
+  }
 
 }

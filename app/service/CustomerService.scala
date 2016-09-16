@@ -14,4 +14,7 @@ trait CustomerService {
   def updateCustomer(id: Long, customer: Customer): Future[Int]
 
   def addPhone(phone: List[Phone]): Future[Option[Int]]
+
+  def add(customer: Customer, phones: Seq[Phone]): Future[Option[Int]]
+  def update(id: Long, customer: Customer, phones: Seq[Phone]): Future[Int]
 }
