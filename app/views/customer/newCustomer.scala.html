@@ -34,7 +34,7 @@
           </h2>
         </div>
 
-      @b3.form(id.map(routes.CustomerController.updateCustomer(_)).getOrElse(routes.CustomerController.addCustomer)) {
+      @b3.form(id.map(routes.CustomerController.updateCustomerWithPhone(_)).getOrElse(routes.CustomerController.saveCustomer)) {
         @b3.text( customerForm("customer.id"), '_class -> "hide-field", 'readonly -> true)
         @b3.text( customerForm("customer.name"), '_label -> messages("customer.name"))
         @b3.text( customerForm("customer.cnpj"), '_label -> messages("customer.cnpj"))

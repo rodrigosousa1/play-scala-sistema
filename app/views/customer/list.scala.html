@@ -26,10 +26,10 @@
 				    <td>@customer._1.cnpj</td>
 				    <td>@customer._1.registration</td>
 				    <td>@customer._2.head.map(_.number).getOrElse(messages("field.empty"))</td>
-				    <td><a href="@routes.CustomerController.getCustomer(customer._1.id)"><span class="glyphicon glyphicon-search"></span></a></td>
+				    <td><a href="@routes.CustomerController.getById(customer._1.id)"><span class="glyphicon glyphicon-search"></span></a></td>
 				    <td><a href="@routes.CustomerController.editCustomer(customer._1.id)"><span class="glyphicon glyphicon-edit"></span></a></td>
 				    <td>
-						<a href="#" onClick="$.delete('@routes.CustomerController.deleteCustomer(customer._1.id)', function(data) {  location.reload();  });">
+						<a href="#" onClick="$.delete('@routes.CustomerController.delete(customer._1.id)', function(data) {  location.reload();  });">
 							<span class="glyphicon glyphicon-trash"></span>
 						</a>
 					</td>    
