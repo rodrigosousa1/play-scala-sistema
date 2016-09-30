@@ -2,48 +2,30 @@ package service
 
 import javax.inject._
 import dao.CustomerDAO
-import models.{ Customer, Phone }
+import models.CustomerDetails
 import scala.concurrent.Future
 
 @Singleton
 class CustomerServiceImpl @Inject() (customerDAO: CustomerDAO) extends CustomerService {
 
-  def getCustomerById(id: Long): Future[Option[Customer]] = {
-    customerDAO.getById(id)
+  def getCustomerDetailsById(id: Long): Future[Option[CustomerDetails]] = {
+    customerDAO.getDetailsById(id)
   }
 
-  def getAllCustomers(): Future[Seq[Customer]] = {
-    customerDAO.getAll
+  def getAllCustomersDetails(): Future[Seq[CustomerDetails]] = {
+    customerDAO.getAllDetails
   }
 
-  def saveCustomer(customer: Customer): Future[Long] = {
-    customerDAO.save(customer)
+  def saveCustomerDetails(customerDetails: CustomerDetails): Future[Option[Int]] = {
+  	customerDAO.saveDetails(customerDetails)
   }
 
   def deleteCustomer(id: Long): Future[Int] = {
-    customerDAO.delete(id)
+  	customerDAO.delete(id)
   }
 
-  def updateCustomer(id: Long, customer: Customer): Future[Int] = {
-    customerDAO.update(id, customer)
-  }
-
-
-
-  def add(customer: Customer, phones: Seq[Phone]): Future[Option[Int]] = {
-    customerDAO.addCustomerWithPhone(customer, phones)
-  }
-
-  def update(id: Long, customer: Customer, phones: Seq[Phone]): Future[Int] = {
-    customerDAO.updateCustomerWithPhone(id, customer, phones)
-  }
-
-   def getCustomerWithPhone(id: Long): Future[Option[(Customer, Seq[Option[Phone]])]] = {
-    customerDAO.getWithPhone(id)
-  }
-
-  def getAllCustomersWithPhone(): Future[Seq[(Customer, Seq[Option[Phone]])]] = {
-    customerDAO.getAllWithPhone
+  def updateCustomerDetails(id: Long, customerDetails: CustomerDetails): Future[Int] = {
+    customerDAO.updateDetails(id, customerDetails)
   }
 
 }

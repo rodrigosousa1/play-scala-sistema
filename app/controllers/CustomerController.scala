@@ -5,69 +5,63 @@ import play.api._
 import play.api.mvc._
 import service.CustomerService
 import scala.concurrent.Future
-import models.{ Customer, CustomerForm, Phone }
+import models.{ Customer, Phone, CustomerDetails }
 import play.api.i18n.{ MessagesApi, Messages, I18nSupport }
 import play.api.libs.concurrent.Execution.Implicits._
+import play.api.libs.json._
 
 @Singleton
 class CustomerController @Inject() (cs: CustomerService, val messagesApi: MessagesApi) extends Controller with I18nSupport {
 
-  def newCustomer() = Action { implicit request =>
-    Ok(views.html.customer.newCustomer(CustomerForm.form))
-  }
-
-  def getById(id: Long) = Action.async { implicit request =>
-    val customer = cs.getCustomerWithPhone(id)
-    customer.map { res =>
-      Ok(views.html.customer.details(res.get))
-    }
-  }
-
-  def getAll() = Action.async { implicit request =>
-    val customers = cs.getAllCustomersWithPhone
+  def getAllCustomers() = Action.async { implicit request =>
+    val customers = cs.getAllCustomersDetails
     customers.map { customers =>
-      Ok(views.html.customer.list(customers))
+      Ok(Json.toJson(customers))
     }
   }
 
-  def saveCustomer() = Action.async { implicit request =>
-    CustomerForm.form.bindFromRequest.fold(
-      formWithErrors => {
-        Future.successful(BadRequest(views.html.customer.newCustomer(formWithErrors)))
+  def getCustomerById(id: Long) = Action.async { implicit request =>
+    val customer = cs.getCustomerDetailsById(id)
+    customer.map { customer =>
+      customer match {
+        case Some(x) => Ok(Json.toJson(x))
+        case None => NotFound(Json.obj("status" -> "NOT_FOUND"))
+      }
+    }
+  }
+
+  def saveCustomer() = Action.async(BodyParsers.parse.json) { implicit request =>
+    request.body.validate[CustomerDetails].fold(
+      errors => {
+        Future.successful(BadRequest(Json.obj("status" -> "KO", "message" -> JsError.toJson(errors))))
       },
-      data => {
-        val newCustomer = data.customer
-        val newPhones = data.phones.flatMap(_.to[List])
-        cs.add(newCustomer, newPhones).map { res =>
-          Redirect(routes.CustomerController.newCustomer()).flashing("success" -> Messages("flash.success"))
+      customer => {
+        cs.saveCustomerDetails(customer).map { res =>
+          Ok(Json.obj("status" -> "OK"))
         }
+
       })
   }
 
-  def delete(id: Long) = Action.async { implicit request =>
+  def deleteCustomer(id: Long) = Action.async { implicit request =>
     val delete = cs.deleteCustomer(id)
-    delete.map(res => Redirect(routes.CustomerController.getAll))
-
-  }
-
-  def updateCustomerWithPhone(id: Long) = Action.async { implicit request =>
-    CustomerForm.form.bindFromRequest.fold(
-      formWithErrors => {
-        Future.successful(BadRequest(views.html.customer.newCustomer(formWithErrors, Some(id))))
-      },
-      data => {
-        val updatedCustomer = data.customer
-        val updatedPhones = data.phones.flatMap(_.to[List])
-        cs.update(id, updatedCustomer, updatedPhones).map(res => Redirect(routes.CustomerController.getAll).flashing("success" -> Messages("flash.success")))
-      })
-  }
-
-  def editCustomer(id: Long) = Action.async { implicit request =>
-    cs.getCustomerWithPhone(id).map { res =>
-      val formData = CustomerForm.toCustomerFormData(res.get)
-      val form = CustomerForm.form.fill(formData)
-      Ok(views.html.customer.newCustomer(form, Some(id)))
+    delete.map { res =>
+      Ok(Json.obj("status" -> "OK"))
     }
+
   }
 
+  def updateCustomer(id: Long) = Action.async(BodyParsers.parse.json) { implicit request =>
+    request.body.validate[CustomerDetails].fold(
+      errors => {
+        Future.successful(BadRequest(Json.obj("status" -> "KO", "message" -> JsError.toJson(errors))))
+      },
+      customer => {
+        cs.updateCustomerDetails(id, customer).map { res =>
+          Ok(Json.obj("status" -> "OK"))
+        }
+
+      })
+
+  }
 }

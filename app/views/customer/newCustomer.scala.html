@@ -1,56 +1,32 @@
-@(customerForm: Form[models.CustomerFormData], id: Option[Long] = None)(implicit request: RequestHeader, messages: Messages)
-
-@import b3.vertical.fieldConstructor
-
-@main( 
-  if(id.isEmpty){ 
-    messages("customer.new")
-  } else {
-    messages("customer.edit")
-  }) {
-
-@request.flash.get("success").map { msg =>
-<div class="alert alert-success">
-	<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-    <strong>@msg</strong>
+@()(implicit request: RequestHeader, messages: Messages) 
+<div class="modal fade" id="newCustomer" tabindex="-1" role="dialog" aria-labelledby="@messages("customer.new")">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+			    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			        <h4 class="modal-title">@messages("customer.new")</h4>
+			    </div>
+			    <div class="modal-body">
+			       <form name="customerForm">
+			       	  <div class="form-group">
+			       	  	<input type="hidden" ng-model="customer.id" ng-init="customer.id=0" readonly="true">
+			       	  	<label for="customer-name" class="control-label">@messages("customer.name")</label>
+			            <input type="text" id="customer-name" class="form-control" ng-model="customer.name">
+			            <label for="customer-cnpj" class="control-label">@messages("customer.cnpj")</label>	
+			            <input type="number" if="customer-cnpj" class="form-control" ng-model="customer.cnpj">
+			            <label for="customer-registration" class="control-label">@messages("customer.registration")</label>
+			            <input type="number" id="customer-registration" class="form-control" ng-model="customer.registration">
+			            <label for="customer-phone" class="control-label">@messages("customer.phone")</label>
+			            <input type="number" id="customer-phone" class="form-control" ng-model="customer.phones[0].number">
+			            <input type="hidden" ng-model="customer.phones.customerId" ng-init="customer.phones[0].customerId=0" readonly="true">
+			            <input type="hidden" ng-model="customer.phones.id" ng-init="customer.phones[0].id=0" readonly="true">
+			          </div>
+	        		</form>
+			    </div>
+			    <div class="modal-footer">
+			        <button type="button" class="btn btn-default" data-dismiss="modal">@messages("command.close")</button>
+			        <button type="button" class="btn btn-primary" ng-click="saveCustomer(customer)">@messages("command.save")</button>
+			    </div>
+		</div>
+	</div>
 </div>
-}
-@request.flash.get(messages("flash.error")).map { msg =>
-<div class="alert alert-danger">
-	<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-    <strong>@msg</strong>
-</div>
-}
-
-<div class="content-box">
-    <div class="container-fluid white-bg border-bottom">
-        <div class="headline">
-            <h2>
-            @if(id.isEmpty){ 
-              @messages("menu.customer")
-            } else {
-              @messages("customer.details", customerForm("name").value.getOrElse(""))
-            }
-          </h2>
-        </div>
-
-      @b3.form(id.map(routes.CustomerController.updateCustomerWithPhone(_)).getOrElse(routes.CustomerController.saveCustomer)) {
-        @b3.text( customerForm("customer.id"), '_class -> "hide-field", 'readonly -> true)
-        @b3.text( customerForm("customer.name"), '_label -> messages("customer.name"))
-        @b3.text( customerForm("customer.cnpj"), '_label -> messages("customer.cnpj"))
-        @b3.text( customerForm("customer.registration"), '_label -> messages("customer.registration"))
-        @if(customerForm("phones").indexes.isEmpty){
-          @b3.text( customerForm("phones[0].number"), '_label -> messages("customer.phone"))
-          <input type="text" id="phones_0_customerId" name="phones[0].customerId" value='@customerForm("customer.id").value' class="form-control hide-field" readonly>
-        }
-        @for(i <- customerForm("phones").indexes) {
-          @b3.text( customerForm(s"phones[$i].number"), '_label -> messages("customer.phones", i+1))
-          @b3.text( customerForm(s"phones[$i].id"), '_class -> "hide-field", 'readonly -> true)
-          @b3.text( customerForm(s"phones[$i].customerId"), '_class -> "hide-field", 'readonly -> true)
-        }
-        <button type="submit" class="btn btn-primary"> @id.map(_ => messages("command.update")).getOrElse(messages("command.save")) </button>
-      }
-    </div>
-  </div>
-}
-

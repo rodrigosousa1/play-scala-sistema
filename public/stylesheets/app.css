@@ -1,41 +1,21 @@
-
 body {
     background-color: #e8e8ea;
     font-size: 13px;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-    color: #656565;
-    margin-top: 5px;
-    text-shadow: none;
-    font-weight: normal;
-    font-family: "Open Sans", Arial, sans-serif;
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
 }
 
-.content-header h2 {
-    font-size: 26px;
-    font-weight: 100;
-
+.form-control {
+    margin-bottom: 5px;
 }
 
-.headline {
-    display: block;
-    margin: 8px 0px 18px;
-    border-bottom: 1px solid #E4E9F0;
-}
-
-.headline h2,
-.headline h3,
-.headline h4 {
-    margin: 0px 0px -2px;
-    padding-bottom: 5px;
-    display: inline-block;
-    border-bottom: 2px solid #ef6551;
+.input-style {
+    border: 0;
+    border-bottom: 1px solid #cfd2d5;
 }
 
 .nav-side-fixed {
@@ -115,6 +95,3 @@ h6 {
     border-bottom: 1px solid #dedede;
 }
 
-.hide-field {
-    display: none;
-}

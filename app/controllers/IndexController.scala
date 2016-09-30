@@ -3,11 +3,12 @@ package controllers
 import javax.inject._
 import play.api._
 import play.api.mvc._
+import play.api.i18n.{ MessagesApi, Messages, I18nSupport }
 
 @Singleton
-class IndexController @Inject() extends Controller {
+class IndexController @Inject() (val messagesApi: MessagesApi) extends Controller with I18nSupport {
 
   def index = Action { implicit request =>
-    Redirect(routes.CustomerController.getAll)
+    Ok(views.html.index())
   }
 }

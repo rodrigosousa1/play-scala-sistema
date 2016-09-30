@@ -1,16 +1,16 @@
 app.name = System
 
-menu.customer = Customer
-menu.new.customer = New customer
-menu.list.customer = Customers List
+menu.customers = Customers
 
-
-
+title.list.customers = Customers List
 
 command.save = Save
 command.update = Update
 command.delete = Delete
 command.edit = Edit
+command.close = Close
+
+command.new.customer = New customer
 
 flash.success = Success
 flash.error = Error

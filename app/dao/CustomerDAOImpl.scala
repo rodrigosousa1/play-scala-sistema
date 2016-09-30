@@ -1,14 +1,11 @@
 package dao
 
 import javax.inject._
-import models.{ Customer, Phone }
+import models.{ Customer, Phone, CustomerDetails }
 import play.api.db.slick.DatabaseConfigProvider
 import slick.driver.JdbcProfile
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
-
-
-case class CuustomerDetails(name: String, cnpj: Long, registration: Long, phones: List[Phone], id: Long = 0L)
 
 @Singleton
 class CustomerDAOImpl @Inject() (dbConfigProvider: DatabaseConfigProvider) extends CustomerDAO with Tables {
@@ -42,14 +39,29 @@ class CustomerDAOImpl @Inject() (dbConfigProvider: DatabaseConfigProvider) exten
     db.run(query)
   }
 
+  def getDetailsById(id: Long): Future[Option[CustomerDetails]] = {
+    val query = customersQuery.joinLeft(phonesQuery).on(_.id === _.customerId).
+      filter { case (customer, phone) => customer.id === id }.result.map {
+        _.groupBy(_._1).map {
+          case (c, p) => CustomerDetails(c.id, c.name, c.cnpj, c.registration, p.flatMap(_._2))
+        }.to[Seq].headOption
+      }
+    db.run(query)
+  }
 
+  def getAllDetails(): Future[Seq[CustomerDetails]] = {
+    val query = customersQuery.joinLeft(phonesQuery).on(_.id === _.customerId).result.map {
+      _.groupBy(_._1).map {
+        case (c, p) => CustomerDetails(c.id, c.name, c.cnpj, c.registration, p.flatMap(_._2))
+      }.to[Seq]
+    }
 
+    db.run(query)
+  }
 
-  /**
-   * 
-   ******************************************************************************************/
-
-  def addCustomerWithPhone(customer: Customer, phones: Seq[Phone]): Future[Option[Int]] = {
+  def saveDetails(customerDetails: CustomerDetails): Future[Option[Int]] = {
+    val customer = Customer(customerDetails.name, customerDetails.cnpj, customerDetails.registration, customerDetails.id)
+    val phones = customerDetails.phones
 
     val insertCustomer = customersAutoInc += customer
 
@@ -60,40 +72,20 @@ class CustomerDAOImpl @Inject() (dbConfigProvider: DatabaseConfigProvider) exten
 
     val insertQuery = insertCustomer.flatMap { id => insertPhone(id) }
     db.run(insertQuery.transactionally)
+
   }
 
-  def updateCustomerWithPhone(id: Long, customer: Customer, phones: Seq[Phone]): Future[Int] = {
-    val updateCustomerQuery = customersQuery.filter(_.id === id).update(customer)
+  def updateDetails(id: Long, customerDetails: CustomerDetails): Future[Int] = {
+    val customer = Customer(customerDetails.name, customerDetails.cnpj, customerDetails.registration, customerDetails.id)
+    val phones = customerDetails.phones
+
+    val query = customersQuery.filter(_.id === id).update(customer)
 
     for (phone <- phones) {
       db.run(phonesQuery.insertOrUpdate(phone))
     }
 
-    db.run { updateCustomerQuery }
+    db.run { query }
 
   }
-
-  def getWithPhone(id: Long): Future[Option[(Customer, Seq[Option[Phone]])]] = {
-    val getQuery = customersQuery.joinLeft(phonesQuery).on(_.id === _.customerId).
-      filter { case (customer, phone) => customer.id === id }.result.map {
-        _.groupBy(_._1).map {
-          case (c, p) => (c, p.map(_._2))
-        }.to[Seq].headOption
-      }
-    db.run(getQuery)
-  }
-
-  def getAllWithPhone(): Future[Seq[(Customer, Seq[Option[Phone]])]] = {
-    val listAllQuery = customersQuery.joinLeft(phonesQuery).on(_.id === _.customerId).result.map {
-      _.groupBy(_._1).map {
-        case (c, p) => (c, p.map(_._2))
-      }.to[Seq]
-    }
-
-    db.run(listAllQuery)
-  }
-  /**
-   * 
-   *******************************************************************************************************/
-
 }
