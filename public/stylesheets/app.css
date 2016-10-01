@@ -1,5 +1,6 @@
-body {
-    background-color: #e8e8ea;
+html, body {
+    background-color: #14161f;
+    font-family: "Open Sans", Arial, sans-serif;
     font-size: 13px;
 }
 
@@ -9,13 +10,10 @@ input[type=number]::-webkit-outer-spin-button {
   margin: 0; 
 }
 
+[role=list]{cursor:pointer}
+
 .form-control {
     margin-bottom: 5px;
-}
-
-.input-style {
-    border: 0;
-    border-bottom: 1px solid #cfd2d5;
 }
 
 .nav-side-fixed {
@@ -24,13 +22,13 @@ input[type=number]::-webkit-outer-spin-button {
     left: 0;
     bottom: 0;
     width: 240px;
-    z-index: 4;
-    background-color: #14161f;
+    z-index: 4;   
 }
 
 .content {
-    margin-top: 45px;
     margin-left: 240px;
+    background-color: #e8e8ea;
+    min-height: 100vh;
 }
 
 .nav > li {
@@ -79,19 +77,21 @@ input[type=number]::-webkit-outer-spin-button {
 
 .content-header {
     min-height: 330px; /*verificar*/
-    padding-top: 15px;
-    padding-bottom: 15px;
-}
-
-.white-bg {
     background-color: #fff;
 }
 
+.white-bg {
+   background-color: #fff; 
+}
+
 .content-box {
-    padding: 15px 15px 15px 15px;
+    min-height: 100%;
 }
 
-.border-bottom {
-    border-bottom: 1px solid #dedede;
+.content-padding {
+   padding: 15px 15px 15px 15px;
 }
 
+dt:after {
+    content: ":";
+}

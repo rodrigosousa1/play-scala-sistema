@@ -3,6 +3,12 @@ angular.module("sistema").controller("customerController", function($scope, $htt
 	$scope.customer = {};
 	$scope.customer.phones = [];
 
+	$scope.customerMaster = {"phones":[{"customerId":0,"id":0}],"id":0};
+
+	var reset = function() {
+        $scope.customer = angular.copy($scope.customerMaster);
+    };
+
 	var loadCustomers = function() {
 		customerAPI.getCustomers().success(function(data){
 			$scope.customers = data;
@@ -38,8 +44,10 @@ angular.module("sistema").controller("customerController", function($scope, $htt
 		});
 	}
 
+
+
 	$scope.clearForm = function() {
-		delete $scope.customer;
+		reset();
 	    $scope.customerForm.$setPristine();
 	}
 

@@ -26,7 +26,7 @@ customer.registration = Municipal registration
 customer.phone = Phone
 customer.phones = Phone {0}
 
-customer.details = Customer: {0}
+customer.details = Customer details
 
 customer.table.id = ID
 customer.table.name = COMPANY NAME
