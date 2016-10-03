@@ -2,7 +2,7 @@ package models
 
 import play.api.libs.json._
 
-case class CustomerDetails(id: Long = 0L, name: String, cnpj: Long, registration: Long, phones: Seq[Phone])
+case class CustomerDetails(id: Long = 0L, name: String, cnpj: String, registration: String, phones: Seq[Phone])
 
 object CustomerDetails {
 

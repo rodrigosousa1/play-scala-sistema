@@ -25,17 +25,12 @@
                             <td ng-click="showCustomerDetails(customer)" role="list">{{ customer.name }}</td>
                             <td>{{ customer.cnpj | cnpj }}</td>
                             <td>{{ customer.registration }}</td>
-                            <td ng-if="customer.phones.length > 0">{{ customer.phones[0].number }}</td>
+                            <td ng-if="customer.phones.length > 0">{{ customer.phones[0].number | phone }}</td>
                             <td ng-if="customer.phones.length === 0">@messages("field.empty")</td>
                             <td><a href="#" data-toggle="modal" data-target="#editCustomer" ng-click="getCustomerById(customer.id)" class="glyphicon glyphicon-edit"><span></span></a></td>
                             <td><a href="#" ng-click="deleteCustomer(customer.id)"><span class="glyphicon glyphicon-trash"></span></a></td>
                         </tr>
                     </table>
-                    <div class="container-fluid">
-                        <button type="button" class="btn btn-success pull-right" ng-click="clearForm()" data-toggle="modal" data-target="#newCustomer">
-                            <span class="glyphicon glyphicon-plus"></span> @messages("command.new.customer")
-                        </button>
-                    </div>
                     <div class="modal fade" id="newCustomer" tabindex="-1" role="dialog" aria-labelledby="@messages(" customer.new ")">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
@@ -50,11 +45,11 @@
                                             <label for="customer-name" class="control-label">@messages("customer.name")</label>
                                             <input type="text" id="customer-name" class="form-control" ng-model="customer.name">
                                             <label for="customer-cnpj" class="control-label">@messages("customer.cnpj")</label>
-                                            <input type="number" if="customer-cnpj" class="form-control" ng-model="customer.cnpj">
+                                            <input type="text" if="customer-cnpj" class="form-control" ng-model="customer.cnpj">
                                             <label for="customer-registration" class="control-label">@messages("customer.registration")</label>
-                                            <input type="number" id="customer-registration" class="form-control" ng-model="customer.registration">
+                                            <input type="text" id="customer-registration" class="form-control" ng-model="customer.registration">
                                             <label for="customer-phone" class="control-label">@messages("customer.phone")</label>
-                                            <input type="number" id="customer-phone" class="form-control" ng-model="customer.phones[0].number">
+                                            <input type="text" id="customer-phone" class="form-control" ng-model="customer.phones[0].number">
                                             <input type="hidden" ng-model="customer.phones.customerId" ng-init="customer.phones[0].customerId=0" readonly="true">
                                             <input type="hidden" ng-model="customer.phones.id" ng-init="customer.phones[0].id=0" readonly="true">
                                         </div>
@@ -81,17 +76,17 @@
                                             <label for="customer-name" class="control-label">@messages("customer.name")</label>
                                             <input type="text" id="customer-name" class="form-control" ng-model="customer.name">
                                             <label for="customer-cnpj" class="control-label">@messages("customer.cnpj")</label>
-                                            <input type="number" if="customer-cnpj" class="form-control" ng-model="customer.cnpj">
+                                            <input type="text" if="customer-cnpj" class="form-control" ng-model="customer.cnpj">
                                             <label for="customer-registration" class="control-label">@messages("customer.registration")</label>
-                                            <input type="number" id="customer-registration" class="form-control" ng-model="customer.registration">
+                                            <input type="text" id="customer-registration" class="form-control" ng-model="customer.registration">
                                             <label for="customer-phone" class="control-label">@messages("customer.phone")</label>
                                             <div ng-repeat="phone in customer.phones" ng-if="customer.phones.length > 0">
-                                                <input type="number" id="customer-phone" class="form-control" ng-model="phone.number">
+                                                <input type="text" id="customer-phone" class="form-control" ng-model="phone.number">
                                                 <input type="hidden" ng-model="phone.customerId" readonly="true">
                                                 <input type="hidden" ng-model="phone.id" readonly="true">
                                             </div>
                                             <div ng-if="customer.phones.length === 0">
-                                                <input type="number" id="customer-phone" class="form-control" ng-model="phone.number">
+                                                <input type="text" id="customer-phone" class="form-control" ng-model="phone.number">
                                                 <input type="hidden" ng-model="customer.phones.customerId" ng-init="customer.phones[0].customerId= customer.id" readonly="true">
                                                 <input type="hidden" ng-model="customer.phones.id" ng-init="customer.phones[0].id=0" readonly="true">
                                             </div>
@@ -105,6 +100,11 @@
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="container-fluid">
+                    <button type="button" class="btn btn-success pull-right" ng-click="clearForm()" data-toggle="modal" data-target="#newCustomer">
+                        <span class="glyphicon glyphicon-plus"></span> @messages("command.new.customer")
+                    </button>
                 </div>
             </div>
         </div>
@@ -123,7 +123,7 @@
                         <dd>{{ customerDetails.registration }}</dd>
                         <dt>@messages("customer.table.phone")</dt>
                         <dd ng-if="customerDetails.phones.length === 0">@messages("field.empty")</dd>
-                        <dd ng-repeat="phone in customerDetails.phones">{{phone.number}}</dd>
+                        <dd ng-repeat="phone in customerDetails.phones">{{ phone.number | phone }}</dd>
                     </dl>
                     <div ng-if="!customerDetails">
                         <h3>No data</h3>

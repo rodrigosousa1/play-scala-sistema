@@ -2,7 +2,7 @@ package models
 
 import play.api.libs.json._
 
-case class Phone(customerId: Long, number: Long, id: Long = 0L)
+case class Phone(customerId: Long, number: String, id: Long = 0L)
 
 object Phone {
 
