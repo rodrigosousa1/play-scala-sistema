@@ -1,16 +1,32 @@
-html, body {
+html,
+body {
     background-color: #14161f;
     font-family: "Open Sans", Arial, sans-serif;
     font-size: 13px;
 }
 
-input[type=number]::-webkit-inner-spin-button, 
-input[type=number]::-webkit-outer-spin-button { 
-  -webkit-appearance: none; 
-  margin: 0; 
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }
 
-[role=list]{cursor:pointer}
+[role=list] {
+    cursor: pointer;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: #656565;
+    margin-top: 5px;
+    text-shadow: none;
+    font-weight: normal;
+    font-family: "Open Sans", Arial, sans-serif;
+}
 
 .form-control {
     margin-bottom: 5px;
@@ -22,7 +38,7 @@ input[type=number]::-webkit-outer-spin-button {
     left: 0;
     bottom: 0;
     width: 240px;
-    z-index: 4;   
+    z-index: 4;
 }
 
 .content {
@@ -76,20 +92,28 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .content-header {
-    min-height: 330px; /*verificar*/
+    min-height: 330px;
     background-color: #fff;
+    padding: 15px 15px 15px 15px;
+    margin-bottom: 10px;
 }
 
 .white-bg {
-   background-color: #fff; 
+    background-color: #fff;
 }
 
 .content-box {
-    min-height: 100%;
+    min-height: 450px;
+    border-bottom: 1px solid #dedede;
 }
 
 .content-padding {
-   padding: 15px 15px 15px 15px;
+    padding: 15px 15px 15px 15px;
+}
+
+.padding-md {
+    padding-right: 8px !important;
+    padding-left: 8px !important;
 }
 
 dt:after {
