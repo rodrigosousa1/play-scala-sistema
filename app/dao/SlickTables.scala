@@ -1,7 +1,7 @@
 package dao
 
 import javax.inject._
-import models.{ Customer, Phone }
+import models.{ Customer, Phone, Address }
 import slick.driver.PostgresDriver
 
 trait Tables {
@@ -32,5 +32,23 @@ trait Tables {
 
   implicit val phonesQuery = TableQuery[PhoneTable]
   implicit val phonesAutoInc = phonesQuery returning phonesQuery.map(_.id)
+
+ class AddressTable(tag: Tag) extends Table[Address](tag, "address") {
+    def id = column[Long]("id", O.PrimaryKey, O.AutoInc)
+    def customerId = column[Long]("customer_id")
+    def street = column[String]("street")
+    def neighborhood = column[String]("neighborhood")
+    def city = column[String]("city")
+    def state = column[String]("state")
+    def cep = column[String]("cep")
+
+    def * = (customerId, street, neighborhood, city, state, cep,  id) <> (Address.tupled, Address.unapply)
+    def customer = foreignKey("customer_fk", customerId, customersQuery)(_.id, onDelete = ForeignKeyAction.Cascade)
+
+  }
+
+  implicit val addressesQuery = TableQuery[AddressTable]
+  implicit val addressesAutoInc = addressesQuery returning addressesQuery.map(_.id)
+
 
 }

@@ -20,17 +20,18 @@ field.empty = Nenhum
 
 customer.edit = Editar cliente
 customer.new = Adicionar novo cliente
+customer.id = Código
 customer.name = Razão social
 customer.cnpj = CNPJ
 customer.registration = Inscrição municipal
 customer.phone = Telefone
+customer.street = Endereço
+customer.neighborhood = Bairro
+customer.city = Cidade
+customer.state = Estado
+customer.cep = CEP
 customer.phones = Telefone {0}
 
 customer.details = Detalhes do cliente
 
-customer.table.id = CÓDIGO
-customer.table.name = RAZÃO SOCIAL
-customer.table.cnpj = CNPJ
-customer.table.registration = INSCRIÇÃO MUNICIPAL
-customer.table.phone = TELEFONE
-table.actions = AÇÕES
+table.actions = Ações

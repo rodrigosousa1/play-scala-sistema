@@ -39,22 +39,23 @@ class CustomerDAOImpl @Inject() (dbConfigProvider: DatabaseConfigProvider) exten
     db.run(query)
   }
 
-  def getDetailsById(id: Long): Future[Option[CustomerDetails]] = {
-    val query = customersQuery.joinLeft(phonesQuery).on(_.id === _.customerId).
-      filter { case (customer, phone) => customer.id === id }.result.map {
-        _.groupBy(_._1).map {
-          case (c, p) => CustomerDetails(c.id, c.name, c.cnpj, c.registration, p.flatMap(_._2))
-        }.to[Seq].headOption
+def getDetailsById(id: Long): Future[Option[CustomerDetails]] = {
+   val query = customersQuery.joinLeft(phonesQuery).on(_.id === _.customerId).joinLeft(addressesQuery).on(_._1.id === _.customerId).
+      filter { case ((customer, phone), address) => customer.id === id }.result.map {
+        _.groupBy(record => (record._1._1, record._2)).map {
+          case ((c, a), p) => CustomerDetails(c.id, c.name, c.cnpj, c.registration, p.flatMap(_._1._2), a)
+        }.headOption
       }
     db.run(query)
   }
 
+
   def getAllDetails(): Future[Seq[CustomerDetails]] = {
-    val query = customersQuery.joinLeft(phonesQuery).on(_.id === _.customerId).result.map {
-      _.groupBy(_._1).map {
-        case (c, p) => CustomerDetails(c.id, c.name, c.cnpj, c.registration, p.flatMap(_._2))
-      }.to[Seq]
-    }
+    val query = customersQuery.joinLeft(phonesQuery).on(_.id === _.customerId).joinLeft(addressesQuery).on(_._1.id === _.customerId).result.map {
+        _.groupBy(record => (record._1._1, record._2)).map {
+          case ((c, a), p) => CustomerDetails(c.id, c.name, c.cnpj, c.registration, p.flatMap(_._1._2), a)
+        }.to[Seq]
+      }
 
     db.run(query)
   }

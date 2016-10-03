@@ -12,11 +12,11 @@
                     <table class="table table-hover" ng-show="customers.length > 0">
                         <thead>
                             <tr>
-                                <th>@messages("customer.table.id")</th>
-                                <th>@messages("customer.table.name")</th>
-                                <th>@messages("customer.table.cnpj")</th>
-                                <th>@messages("customer.table.registration")</th>
-                                <th>@messages("customer.table.phone")</th>
+                                <th>@messages("customer.id")</th>
+                                <th>@messages("customer.name")</th>
+                                <th>@messages("customer.cnpj")</th>
+                                <th>@messages("customer.registration")</th>
+                                <th>@messages("customer.phone")</th>
                                 <th colspan="3">@messages("table.actions")</th>
                             </tr>
                         </thead>
@@ -41,7 +41,6 @@
                                 <div class="modal-body">
                                     <form name="customerForm">
                                         <div class="form-group">
-                                            <input type="hidden" ng-model="customer.id" ng-init="customer.id" readonly="true">
                                             <label for="customer-name" class="control-label">@messages("customer.name")</label>
                                             <input type="text" id="customer-name" class="form-control" ng-model="customer.name">
                                             <label for="customer-cnpj" class="control-label">@messages("customer.cnpj")</label>
@@ -50,8 +49,6 @@
                                             <input type="text" id="customer-registration" class="form-control" ng-model="customer.registration">
                                             <label for="customer-phone" class="control-label">@messages("customer.phone")</label>
                                             <input type="text" id="customer-phone" class="form-control" ng-model="customer.phones[0].number">
-                                            <input type="hidden" ng-model="customer.phones.customerId" ng-init="customer.phones[0].customerId=0" readonly="true">
-                                            <input type="hidden" ng-model="customer.phones.id" ng-init="customer.phones[0].id=0" readonly="true">
                                         </div>
                                     </form>
                                 </div>
@@ -113,17 +110,27 @@
                 <div class="container-fluid">
                     <h2>@messages("customer.details")</h2>
                     <dl ng-if="customerDetails">
-                        <dt>@messages("customer.table.id")</dt>
+                        <dt>@messages("customer.id")</dt>
                         <dd>{{ customerDetails.id }}</dd>
-                        <dt>@messages("customer.table.name")</dt>
+                        <dt>@messages("customer.name")</dt>
                         <dd>{{ customerDetails.name }}</dd>
-                        <dt>@messages("customer.table.cnpj")</dt>
+                        <dt>@messages("customer.cnpj")</dt>
                         <dd>{{ customerDetails.cnpj | cnpj }}</dd>
-                        <dt>@messages("customer.table.registration")</dt>
+                        <dt>@messages("customer.registration")</dt>
                         <dd>{{ customerDetails.registration }}</dd>
-                        <dt>@messages("customer.table.phone")</dt>
+                        <dt>@messages("customer.phone")</dt>
                         <dd ng-if="customerDetails.phones.length === 0">@messages("field.empty")</dd>
                         <dd ng-repeat="phone in customerDetails.phones">{{ phone.number | phone }}</dd>
+                        <dt>@messages("customer.street")</dt>
+                        <dd>{{ customerDetails.address.street }}</dd>
+                        <dt>@messages("customer.neighborhood")</dt>
+                        <dd>{{ customerDetails.address.neighborhood }}</dd>
+                        <dt>@messages("customer.city")</dt>
+                        <dd>{{ customerDetails.address.city }}</dd>
+                        <dt>@messages("customer.state")</dt>
+                        <dd>{{ customerDetails.address.state }}</dd>
+                        <dt>@messages("customer.cep")</dt>
+                        <dd>{{ customerDetails.address.cep }}</dd> 
                     </dl>
                     <div ng-if="!customerDetails">
                         <h3>No data</h3>
