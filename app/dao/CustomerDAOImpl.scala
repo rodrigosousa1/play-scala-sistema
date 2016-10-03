@@ -79,13 +79,12 @@ class CustomerDAOImpl @Inject() (dbConfigProvider: DatabaseConfigProvider) exten
     val customer = Customer(customerDetails.name, customerDetails.cnpj, customerDetails.registration, customerDetails.id)
     val phones = customerDetails.phones
 
-    val query = customersQuery.filter(_.id === id).update(customer)
+    val updateCustomer = customersQuery.filter(_.id === id).update(customer)
+    val updatePhones = DBIO.sequence(phones.map(phone => phonesQuery.insertOrUpdate(phone)))
 
-    for (phone <- phones) {
-      db.run(phonesQuery.insertOrUpdate(phone))
-    }
+    val query = updatePhones andThen updateCustomer
 
-    db.run { query }
+    db.run { query.transactionally }
 
   }
 }

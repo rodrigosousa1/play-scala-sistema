@@ -23,7 +23,7 @@
                         <tr ng-repeat="customer in customers | orderBy: 'id'">
                             <td>{{ customer.id }}</td>
                             <td ng-click="showCustomerDetails(customer)" role="list">{{ customer.name }}</td>
-                            <td>{{ customer.cnpj }}</td>
+                            <td>{{ customer.cnpj | cnpj }}</td>
                             <td>{{ customer.registration }}</td>
                             <td ng-if="customer.phones.length > 0">{{ customer.phones[0].number }}</td>
                             <td ng-if="customer.phones.length === 0">@messages("field.empty")</td>
@@ -77,7 +77,7 @@
                                 <div class="modal-body">
                                     <form name="customerForm">
                                         <div class="form-group">
-                                            <input type="hidden" ng-model="customer.id" ng-init="customer.id=0" readonly="true">
+                                            <input type="hidden" ng-model="customer.id" readonly="true">
                                             <label for="customer-name" class="control-label">@messages("customer.name")</label>
                                             <input type="text" id="customer-name" class="form-control" ng-model="customer.name">
                                             <label for="customer-cnpj" class="control-label">@messages("customer.cnpj")</label>
@@ -85,10 +85,15 @@
                                             <label for="customer-registration" class="control-label">@messages("customer.registration")</label>
                                             <input type="number" id="customer-registration" class="form-control" ng-model="customer.registration">
                                             <label for="customer-phone" class="control-label">@messages("customer.phone")</label>
-                                            <div ng-repeat="phone in customer.phones">
+                                            <div ng-repeat="phone in customer.phones" ng-if="customer.phones.length > 0">
                                                 <input type="number" id="customer-phone" class="form-control" ng-model="phone.number">
                                                 <input type="hidden" ng-model="phone.customerId" readonly="true">
                                                 <input type="hidden" ng-model="phone.id" readonly="true">
+                                            </div>
+                                            <div ng-if="customer.phones.length === 0">
+                                                <input type="number" id="customer-phone" class="form-control" ng-model="phone.number">
+                                                <input type="hidden" ng-model="customer.phones.customerId" ng-init="customer.phones[0].customerId= customer.id" readonly="true">
+                                                <input type="hidden" ng-model="customer.phones.id" ng-init="customer.phones[0].id=0" readonly="true">
                                             </div>
                                         </div>
                                     </form>
@@ -113,7 +118,7 @@
                         <dt>@messages("customer.table.name")</dt>
                         <dd>{{ customerDetails.name }}</dd>
                         <dt>@messages("customer.table.cnpj")</dt>
-                        <dd>{{ customerDetails.cnpj }}</dd>
+                        <dd>{{ customerDetails.cnpj | cnpj }}</dd>
                         <dt>@messages("customer.table.registration")</dt>
                         <dd>{{ customerDetails.registration }}</dd>
                         <dt>@messages("customer.table.phone")</dt>
