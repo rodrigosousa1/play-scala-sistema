@@ -14,6 +14,6 @@ trait CustomerDAO {
 
   def getDetailsById(id: Long): Future[Option[CustomerDetails]]
   def getAllDetails(): Future[Seq[CustomerDetails]]
-  def saveDetails(customerDetails: CustomerDetails): Future[Option[Int]]
+  def saveDetails(customerDetails: CustomerDetails): Future[Int]
   def updateDetails(id: Long, customerDetails: CustomerDetails): Future[Int]
 }

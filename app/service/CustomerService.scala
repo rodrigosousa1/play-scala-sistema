@@ -8,7 +8,7 @@ import scala.concurrent.Future
 trait CustomerService {
   def getCustomerDetailsById(id: Long): Future[Option[CustomerDetails]]
   def getAllCustomersDetails(): Future[Seq[CustomerDetails]]
-  def saveCustomerDetails(customerDetails: CustomerDetails): Future[Option[Int]]
+  def saveCustomerDetails(customerDetails: CustomerDetails): Future[Int]
   def deleteCustomer(id: Long): Future[Int]
   def updateCustomerDetails(id: Long, customerDetails: CustomerDetails): Future[Int]
 

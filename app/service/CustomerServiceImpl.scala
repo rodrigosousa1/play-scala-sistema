@@ -16,7 +16,7 @@ class CustomerServiceImpl @Inject() (customerDAO: CustomerDAO) extends CustomerS
     customerDAO.getAllDetails
   }
 
-  def saveCustomerDetails(customerDetails: CustomerDetails): Future[Option[Int]] = {
+  def saveCustomerDetails(customerDetails: CustomerDetails): Future[Int] = {
   	customerDAO.saveDetails(customerDetails)
   }
 

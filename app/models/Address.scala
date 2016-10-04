@@ -9,5 +9,6 @@ object Address {
   implicit val addressFormat = Json.format[Address]
 
   def tupled = (this.apply _).tupled
+  def default() = Address(0L, "", "", "", "", "", 0L)
 
 }
