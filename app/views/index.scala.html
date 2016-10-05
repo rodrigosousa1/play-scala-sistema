@@ -45,11 +45,11 @@
                                                 <label for="customer-name" class="control-label">@messages("customer.name")</label>
                                                 <input type="text" id="customer-name" class="form-control" ng-model="customer.name">
                                                 <label for="customer-cnpj" class="control-label">@messages("customer.cnpj")</label>
-                                                <input type="text" if="customer-cnpj" class="form-control" ng-model="customer.cnpj">
+                                                <input type="text" if="customer-cnpj" class="form-control" ng-model="customer.cnpj" ui-cnpj>
                                                 <label for="customer-registration" class="control-label">@messages("customer.registration")</label>
                                                 <input type="text" id="customer-registration" class="form-control" ng-model="customer.registration">
                                                 <label for="customer-phone" class="control-label">@messages("customer.phone")</label>
-                                                <input type="text" id="customer-phone" class="form-control" ng-model="customer.phones[0].number">
+                                                <input type="text" id="customer-phone" class="form-control" ng-model="customer.phones[0].number" ui-phone>
                                             </div>
                                             <div class="col-md-6">
                                                 <label for="customer-street" class="control-label">@messages("customer.street")</label>
@@ -61,7 +61,7 @@
                                                 <label for="customer-state" class="control-label">@messages("customer.state")</label>
                                                 <input type="text" id="customer-state" class="form-control" ng-model="customer.address.state">
                                                 <label for="customer-cep" class="control-label">@messages("customer.cep")</label>
-                                                <input type="text" id="customer-cep" class="form-control" ng-model="customer.address.cep">
+                                                <input type="text" id="customer-cep" class="form-control" ng-model="customer.address.cep" ui-cep>
                                             </div>
                                         </div>
                                     </form>
@@ -88,17 +88,17 @@
                                                 <label for="customer-name" class="control-label">@messages("customer.name")</label>
                                                 <input type="text" id="customer-name" class="form-control" ng-model="customer.name">
                                                 <label for="customer-cnpj" class="control-label">@messages("customer.cnpj")</label>
-                                                <input type="text" if="customer-cnpj" class="form-control" ng-model="customer.cnpj">
+                                                <input type="text" if="customer-cnpj" class="form-control" ng-model="customer.cnpj" ui-cnpj>
                                                 <label for="customer-registration" class="control-label">@messages("customer.registration")</label>
                                                 <input type="text" id="customer-registration" class="form-control" ng-model="customer.registration">
                                                 <label for="customer-phone" class="control-label">@messages("customer.phone")</label>
                                                 <div ng-repeat="phone in customer.phones" ng-if="customer.phones.length > 0">
-                                                    <input type="text" id="customer-phone" class="form-control" ng-model="phone.number">
+                                                    <input type="text" id="customer-phone" class="form-control" ng-model="phone.number" ui-phone>
                                                     <input type="hidden" ng-model="phone.customerId" readonly="true">
                                                     <input type="hidden" ng-model="phone.id" readonly="true">
                                                 </div>
                                                 <div ng-if="customer.phones.length === 0">
-                                                    <input type="text" id="customer-phone" class="form-control" ng-model="phone.number">
+                                                    <input type="text" id="customer-phone" class="form-control" ng-model="phone.number" ui-phone>
                                                     <input type="hidden" ng-model="customer.phones.customerId" ng-init="customer.phones[0].customerId= customer.id" readonly="true">
                                                     <input type="hidden" ng-model="customer.phones.id" ng-init="customer.phones[0].id=0" readonly="true">
                                                 </div>
@@ -113,7 +113,7 @@
                                                 <label for="customer-state" class="control-label">@messages("customer.state")</label>
                                                 <input type="text" id="customer-state" class="form-control" ng-model="customer.address.state">
                                                 <label for="customer-cep" class="control-label">@messages("customer.cep")</label>
-                                                <input type="text" id="customer-cep" class="form-control" ng-model="customer.address.cep">
+                                                <input type="text" id="customer-cep" class="form-control" ng-model="customer.address.cep" ui-cep>
                                                 <input type="hidden" ng-model="customer.address.customerId" readonly="true">
                                                 <input type="hidden" ng-model="customer.address.id" readonly="true">
                                             </div>
