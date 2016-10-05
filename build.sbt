@@ -12,6 +12,7 @@ libraryDependencies ++= Seq(
   "org.scalatestplus.play" 			%% 			"scalatestplus-play" 		%		 "1.5.1" % Test,
   "com.typesafe.play"				%% 			"play-slick" 				% 		 "2.0.0",
   "com.typesafe.play" 				%% 			"play-slick-evolutions" 	% 		 "2.0.0",
-  "org.postgresql" 					% 			"postgresql" 				% 		 "9.3-1100-jdbc41"
+  "org.postgresql" 					% 			"postgresql" 				% 		 "9.3-1100-jdbc41",
+  "com.github.nscala-time" 			%% 			"nscala-time" 				% 		 "2.14.0"
 )
 
