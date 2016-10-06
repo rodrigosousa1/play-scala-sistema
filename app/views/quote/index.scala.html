@@ -1,4 +1,20 @@
 @()(implicit request: RequestHeader, messages: Messages) 
 @template.main(messages("app.name")) {
-	Quote
+<div class="container-fluid" ng-controller="quoteController">
+    <div class="row row-eq-height">
+        <div class="col-md-8 padding-md">
+            <div class="content-box white-bg">
+            	<div class="container-fluid">
+                	@list()
+                </div>
+            </div>
+        </div>
+         <div class="col-md-4 padding-md">
+         	<div class="content-box white-bg">
+            	<div class="container-fluid">
+                </div>
+            </div>
+        </div>
+    </div>
+</dit>
 }

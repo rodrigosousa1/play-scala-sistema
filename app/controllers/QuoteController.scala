@@ -14,7 +14,7 @@ import play.api.libs.json._
 class QuoteController @Inject() (qs: QuoteService, val messagesApi: MessagesApi) extends Controller with I18nSupport {
 
   def index = Action { implicit request =>
-    Ok(views.html.index())
+    Ok(views.html.quote.index())
   }
 
   def getAllQuotes() = Action.async { implicit request =>

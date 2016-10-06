@@ -3,7 +3,10 @@ app.name = Sistema
 menu.customers = Clientes
 menu.quotes = Orçamentos
 
-title.list.customers = Lista de clientes
+list.customers = Lista de clientes
+list.quotes = Lista de Orçamentos
+
+field.id = Código
 
 
 command.save = Salvar
@@ -21,7 +24,6 @@ field.empty = Nenhum
 
 customer.edit = Editar cliente
 customer.new = Adicionar novo cliente
-customer.id = Código
 customer.name = Razão social
 customer.cnpj = CNPJ
 customer.registration = Inscrição municipal
@@ -34,5 +36,10 @@ customer.cep = CEP
 customer.phones = Telefone {0}
 
 customer.details = Detalhes do cliente
+
+quote.serviceTo = Serviço para
+quote.serviceDescription = Descrição do serviço
+quote.date = Data do Orçamento
+quote.total = Total
 
 table.actions = Ações

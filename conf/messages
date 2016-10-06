@@ -3,7 +3,10 @@ app.name = System
 menu.customers = Customers
 menu.quotes = Quotes
 
-title.list.customers = Customers List
+list.customers = Customers List
+list.quotes = Quotes List
+
+field.id = Id
 
 command.save = Save
 command.update = Update
@@ -21,7 +24,6 @@ field.empty = None
 
 customer.edit = Edit customer
 customer.new = Add new customer
-customer.id = Id
 customer.name = Company name
 customer.cnpj = CNPJ
 customer.registration = Municipal registration
@@ -34,6 +36,12 @@ customer.cep = CEP
 customer.phones = Phone {0}
 
 customer.details = Customer details
+
+
+quote.serviceTo = Service to
+quote.serviceDescription = Service description
+quote.date = Quote date
+quote.total = Total
 
 
 table.actions = Actions

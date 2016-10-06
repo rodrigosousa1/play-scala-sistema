@@ -3,7 +3,7 @@ angular.module("sistema").controller("customerController", function($scope, $htt
     $scope.customer = {};
     $scope.customer.phones = [];
 
-    $scope.customerMaster = { "phones": [{ "customerId": 0, "id": 0 }], "address":{"customerId": 0, "id": 0}, "id": 0 };
+    $scope.customerMaster = { "phones": [{ "customerId": 0, "id": 0 }], "address": { "customerId": 0, "id": 0 }, "id": 0 };
 
     var reset = function() {
         $scope.customer = angular.copy($scope.customerMaster);
@@ -16,7 +16,6 @@ angular.module("sistema").controller("customerController", function($scope, $htt
             $scope.message = "Someting went wrong :(" + data
         });
     }
-
 
     $scope.saveCustomer = function(customer) {
         customerAPI.saveCustomer(customer).success(function(data) {

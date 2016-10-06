@@ -11,15 +11,12 @@ class QuoteServiceImpl @Inject() (quoteDAO: QuoteDAO) extends QuoteService {
   def getQuoteDetailsById(id: Long): Future[Option[QuoteDetails]] = {
     quoteDAO.getDetailsById(id)
   }
-
   def getAllQuotesDetails(): Future[Seq[QuoteDetails]] = {
     quoteDAO.getAllDetails
   }
-
   def saveQuoteDetails(quoteDetails: QuoteDetails): Future[Option[Int]] = {
     quoteDAO.saveDetails(quoteDetails)
   }
-
   def deleteQuote(id: Long): Future[Int] = {
     quoteDAO.delete(id)
   }
