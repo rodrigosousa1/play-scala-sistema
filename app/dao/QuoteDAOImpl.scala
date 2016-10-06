@@ -1,7 +1,7 @@
 package dao
 
 import javax.inject._
-import models.Quote
+import models.{ Quote, QuoteDetails }
 import play.api.db.slick.DatabaseConfigProvider
 import slick.driver.JdbcProfile
 import scala.concurrent.Future
@@ -37,6 +37,52 @@ class QuoteDAOImpl @Inject() (dbConfigProvider: DatabaseConfigProvider) extends 
   def update(id: Long, quote: Quote): Future[Int] = {
     val query = quotesQuery.filter(_.id === id).update(quote)
     db.run(query)
+  }
+
+  def getDetailsById(id: Long): Future[Option[QuoteDetails]] = {
+    val query = quotesQuery.joinLeft(itemsQuery).on(_.id === _.quoteId).
+      filter { case (quote, item) => quote.id === id }.result.map {
+        _.groupBy(_._1).map {
+          case (q, i) => QuoteDetails(q.id, q.serviceTo, q.serviceDescription, q.date, i.flatMap(_._2))
+        }.headOption
+      }
+    db.run(query)
+  }
+
+  def getAllDetails(): Future[Seq[QuoteDetails]] = {
+    val query = quotesQuery.joinLeft(itemsQuery).on(_.id === _.quoteId).result.map {
+      _.groupBy(_._1).map {
+        case (q, i) => QuoteDetails(q.id, q.serviceTo, q.serviceDescription, q.date, i.flatMap(_._2))
+      }.to[Seq]
+    }
+    db.run(query)
+  }
+
+  def saveDetails(quoteDetails: QuoteDetails): Future[Option[Int]] = {
+    val quote = Quote(quoteDetails.serviceTo, quoteDetails.serviceDescription, quoteDetails.date, quoteDetails.id)
+    val items = quoteDetails.items
+    val insertQuote = quotesAutoInc += quote
+
+    def insertDetails(id: Long) = {
+      val itemsList = items.map(p => p.copy(quoteId = id)).to[List]
+      itemsQuery ++= itemsList
+    }
+
+    val query = insertQuote.flatMap { id => insertDetails(id) }
+    db.run(query.transactionally)
+
+  }
+
+  def updateDetails(id: Long, quoteDetails: QuoteDetails): Future[Int] = {
+    val quote = Quote(quoteDetails.serviceTo, quoteDetails.serviceDescription, quoteDetails.date, quoteDetails.id)
+    val items = quoteDetails.items
+
+    val updateQuote = quotesQuery.filter(_.id === id).update(quote)
+    val updateItems = DBIO.sequence(items.map(item => itemsQuery.insertOrUpdate(item)))
+
+    val query =  updateItems andThen updateQuote
+
+    db.run(query.transactionally)
   }
 
 }
