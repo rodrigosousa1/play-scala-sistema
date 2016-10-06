@@ -13,6 +13,10 @@ import play.api.libs.json._
 @Singleton
 class CustomerController @Inject() (cs: CustomerService, val messagesApi: MessagesApi) extends Controller with I18nSupport {
 
+  def index = Action { implicit request =>
+    Ok(views.html.customer.index())
+  }
+
   def getAllCustomers() = Action.async { implicit request =>
     val customers = cs.getAllCustomersDetails
     customers.map { customers =>

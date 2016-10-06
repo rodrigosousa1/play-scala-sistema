@@ -1,5 +1,8 @@
 GET 		/							 controllers.IndexController.index
 
+GET 		/customer 					 controllers.CustomerController.index
+GET         /quote						 controllers.QuoteController.index
+
 POST    	/customer					 controllers.CustomerController.saveCustomer
 PUT		    /customer/:id				 controllers.CustomerController.updateCustomer(id: Long)
 GET     	/customer/:id                controllers.CustomerController.getCustomerById(id: Long)

@@ -1,6 +1,7 @@
 app.name = System
 
 menu.customers = Customers
+menu.quotes = Quotes
 
 title.list.customers = Customers List
 

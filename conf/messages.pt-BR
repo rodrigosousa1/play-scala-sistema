@@ -1,6 +1,7 @@
 app.name = Sistema
 
 menu.customers = Clientes
+menu.quotes = Orçamentos
 
 title.list.customers = Lista de clientes
 
