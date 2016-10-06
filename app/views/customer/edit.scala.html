@@ -1,0 +1,54 @@
+@()(implicit request: RequestHeader, messages: Messages)
+<div class="modal fade" id="editCustomer" tabindex="-1" role="dialog" aria-labelledby='@messages("customer.edit")'>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="clearForm()"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">@messages("customer.edit")</h4>
+            </div>
+            <div class="modal-body">
+                <form name="customerForm">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <input type="hidden" ng-model="customer.id" readonly="true">
+                            <label for="customer-name" class="control-label">@messages("customer.name")</label>
+                            <input type="text" id="customer-name" class="form-control" ng-model="customer.name">
+                            <label for="customer-cnpj" class="control-label">@messages("customer.cnpj")</label>
+                            <input type="text" if="customer-cnpj" class="form-control" ng-model="customer.cnpj" ui-cnpj>
+                            <label for="customer-registration" class="control-label">@messages("customer.registration")</label>
+                            <input type="text" id="customer-registration" class="form-control" ng-model="customer.registration">
+                            <label for="customer-phone" class="control-label">@messages("customer.phone")</label>
+                            <div ng-repeat="phone in customer.phones" ng-if="customer.phones.length > 0">
+                                <input type="text" id="customer-phone" class="form-control" ng-model="phone.number" ui-phone>
+                                <input type="hidden" ng-model="phone.customerId" readonly="true">
+                                <input type="hidden" ng-model="phone.id" readonly="true">
+                            </div>
+                            <div ng-if="customer.phones.length === 0">
+                                <input type="text" id="customer-phone" class="form-control" ng-model="phone.number" ui-phone>
+                                <input type="hidden" ng-model="customer.phones.customerId" ng-init="customer.phones[0].customerId= customer.id" readonly="true">
+                                <input type="hidden" ng-model="customer.phones.id" ng-init="customer.phones[0].id=0" readonly="true">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="customer-street" class="control-label">@messages("customer.street")</label>
+                            <input type="text" id="customer-street" class="form-control" ng-model="customer.address.street">
+                            <label for="customer-neighborhood" class="control-label">@messages("customer.neighborhood")</label>
+                            <input type="text" if="customer-neighborhood" class="form-control" ng-model="customer.address.neighborhood">
+                            <label for="customer-city" class="control-label">@messages("customer.city")</label>
+                            <input type="text" id="customer-city" class="form-control" ng-model="customer.address.city">
+                            <label for="customer-state" class="control-label">@messages("customer.state")</label>
+                            <input type="text" id="customer-state" class="form-control" ng-model="customer.address.state">
+                            <label for="customer-cep" class="control-label">@messages("customer.cep")</label>
+                            <input type="text" id="customer-cep" class="form-control" ng-model="customer.address.cep" ui-cep>
+                            <input type="hidden" ng-model="customer.address.customerId" readonly="true">
+                            <input type="hidden" ng-model="customer.address.id" readonly="true">
+                        </div>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" ng-click="clearForm()" data-dismiss="modal">@messages("command.close")</button>
+                <button type="button" class="btn btn-primary" ng-click="updateCustomer(customer)">@messages("command.update")</button>
+            </div>
+        </div>
+    </div>
+</div>
