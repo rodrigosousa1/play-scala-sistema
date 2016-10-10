@@ -43,7 +43,7 @@ class QuoteDAOImpl @Inject() (dbConfigProvider: DatabaseConfigProvider) extends 
     val query = quotesQuery.joinLeft(itemsQuery).on(_.id === _.quoteId).
       filter { case (quote, item) => quote.id === id }.result.map {
         _.groupBy(_._1).map {
-          case (q, i) => QuoteDetails(q.id, q.serviceTo, q.serviceDescription, q.date, i.flatMap(_._2))
+          case (q, i) => QuoteDetails(q.id, q.serviceTo, q.serviceDescription, q.date, i.flatMap(_._2), q.total)
         }.headOption
       }
     db.run(query)
@@ -52,7 +52,7 @@ class QuoteDAOImpl @Inject() (dbConfigProvider: DatabaseConfigProvider) extends 
   def getAllDetails(): Future[Seq[QuoteDetails]] = {
     val query = quotesQuery.joinLeft(itemsQuery).on(_.id === _.quoteId).result.map {
       _.groupBy(_._1).map {
-        case (q, i) => QuoteDetails(q.id, q.serviceTo, q.serviceDescription, q.date, i.flatMap(_._2))
+        case (q, i) => QuoteDetails(q.id, q.serviceTo, q.serviceDescription, q.date, i.flatMap(_._2),  q.total)
       }.to[Seq]
     }
     db.run(query)

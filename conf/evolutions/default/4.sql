@@ -7,6 +7,7 @@ CREATE TABLE "public"."quote" (
 "service_to" varchar(30) NOT NULL,
 "service_description" varchar(100) NOT NULL,
 "date" timestamp NOT NULL,
+"total" float4 NOT NULL,
 PRIMARY KEY ("id")
 )
 

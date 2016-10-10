@@ -2,11 +2,15 @@ package service
 
 import javax.inject._
 import dao.QuoteDAO
-import models.QuoteDetails
+import models.{ QuoteDetails, Quote }
 import scala.concurrent.Future
 
 @Singleton
 class QuoteServiceImpl @Inject() (quoteDAO: QuoteDAO) extends QuoteService {
+
+  def getAllQuotes(): Future[Seq[Quote]] = {
+    quoteDAO.getAll;
+  }
 
   def getQuoteDetailsById(id: Long): Future[Option[QuoteDetails]] = {
     quoteDAO.getDetailsById(id)

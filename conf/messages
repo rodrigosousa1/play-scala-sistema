@@ -41,7 +41,7 @@ customer.details = Customer details
 quote.serviceTo = Service to
 quote.serviceDescription = Service description
 quote.date = Quote date
-quote.total = Total
+quote.total = Total value
 
 
 table.actions = Actions

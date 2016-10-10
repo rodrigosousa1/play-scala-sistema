@@ -18,7 +18,7 @@ class QuoteController @Inject() (qs: QuoteService, val messagesApi: MessagesApi)
   }
 
   def getAllQuotes() = Action.async { implicit request =>
-    val quotes = qs.getAllQuotesDetails
+    val quotes = qs.getAllQuotes
     quotes.map { quotes =>
       Ok(Json.toJson(quotes))
     }

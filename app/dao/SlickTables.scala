@@ -62,8 +62,9 @@ trait Tables {
     def serviceTo = column[String]("service_to")
     def serviceDescription = column[String]("service_description")
     def date = column[DateTime]("date")
+    def total = column[Double]("total")
 
-    def * = (serviceTo, serviceDescription, date, id) <> (Quote.tupled, Quote.unapply)
+    def * = (serviceTo, serviceDescription, date, total, id) <> (Quote.tupled, Quote.unapply)
 
   }
 
@@ -76,8 +77,9 @@ trait Tables {
     def quantity = column[Int]("quantity")
     def description = column[String]("description")
     def price = column[Double]("price")
+    def total = column[Double]("total")
 
-    def * = (quoteId, quantity, description, price, id) <> (Item.tupled, Item.unapply)
+    def * = (quoteId, quantity, description, price, total, id) <> (Item.tupled, Item.unapply)
 
   }
 

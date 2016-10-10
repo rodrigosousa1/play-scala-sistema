@@ -2,7 +2,7 @@ package models
 
 import play.api.libs.json._
 
-case class Item(quoteId: Long, quantity: Int, description: String, price: Double, id: Long = 0L)
+case class Item(quoteId: Long, quantity: Int, description: String, price: Double, total: Double, id: Long = 0L)
 
 object Item {
 

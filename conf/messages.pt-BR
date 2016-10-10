@@ -39,7 +39,7 @@ customer.details = Detalhes do cliente
 
 quote.serviceTo = Serviço para
 quote.serviceDescription = Descrição do serviço
-quote.date = Data do Orçamento
-quote.total = Total
+quote.date = Data do orçamento
+quote.total = Valor total
 
 table.actions = Ações

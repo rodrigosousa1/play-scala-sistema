@@ -16,7 +16,7 @@
         <td>{{ quote.serviceTo }}</td>
         <td>{{ quote.serviceDescription }}</td>
         <td>{{ quote.date | date :  "dd/MM/yyyy" }}</td>
-        <td>total</td>
+        <td>{{ quote.total | currency }}</td>
         <td><a href="#" class="glyphicon glyphicon-edit"><span></span></a></td>
         <td><a href="#"><span class="glyphicon glyphicon-trash"></span></a></td>
     </tr>
