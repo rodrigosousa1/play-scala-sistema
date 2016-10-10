@@ -11,7 +11,6 @@ class QuoteServiceImpl @Inject() (quoteDAO: QuoteDAO) extends QuoteService {
   def getAllQuotes(): Future[Seq[Quote]] = {
     quoteDAO.getAll;
   }
-
   def getQuoteDetailsById(id: Long): Future[Option[QuoteDetails]] = {
     quoteDAO.getDetailsById(id)
   }

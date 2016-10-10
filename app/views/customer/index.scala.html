@@ -5,19 +5,19 @@
 </div>
 <div class="container-fluid" ng-controller="customerController">
     <div class="row row-eq-height">
-        <div class="col-md-8 padding-md">
+        <div class="col-md-8">
             <div class="content-box white-bg">
-                <div class="container-fluid">
+                <div clas="container-fluid">
                     @list() @newCustomer() @edit()
                 </div>
                 <div class="container-fluid">
-                    <button type="button" class="btn btn-success pull-right" ng-click="clearForm()" data-toggle="modal" data-target="#newCustomer">
+                    <button class="btn btn-success pull-right" ng-click="clearForm()" data-toggle="modal" data-target="#newCustomer">
                         <span class="glyphicon glyphicon-plus"></span> @messages("command.new.customer")
                     </button>
                 </div>
             </div>
         </div>
-        <div class="col-md-4 padding-md">
+        <div class="col-md-4">
             <div class="content-box white-bg">
                 <div class="container-fluid">
                     @details()

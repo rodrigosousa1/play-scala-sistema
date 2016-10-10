@@ -97,8 +97,10 @@ h6 {
 }
 
 .content-box {
+    position: relative;
     min-height: 450px;
     border-bottom: 1px solid #dedede;
+    margin-top: 10px;
 }
 
 .content-padding {

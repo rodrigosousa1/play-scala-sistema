@@ -1,0 +1,33 @@
+@()(implicit request: RequestHeader, messages: Messages)
+<h2>New Quote</h2>
+<div>
+	<table class="table">
+		<tr>
+			<th>Quantity</th>
+			<th>Description</th>
+			<th>Price</th>
+			<th>Total</th>
+		</tr>
+		<tr ng-repeat="item in quote.items">
+			<td>{{item.quantity}}</td>
+			<td>{{item.description}}</td>
+			<td>{{item.price | currency	}}</td>
+			<td>{{item.total | currency }}</td>
+		</tr>
+		<tr align="right"> 
+			<td colspan="3">Total: </td>
+			<td >{{quote.total | currency}}</td>
+		</tr>
+	</table>
+</div>
+
+<div style="position: absolute; bottom: 0; width: 100%;">
+	<form name="quoteForm" class="form-inline">
+	    <input type="text" class="form-control" ng-model="item.quantity" placeholder="Qty">
+	    <input type="text" class="form-control" ng-model="item.description" placeholder="Description">
+	    <input type="text" class="form-control" ng-model="item.price" placeholder="Price">
+	    <button  class="btn btn-default" ng-click="addItem(item)">   <span class="glyphicon glyphicon-plus"></span> Add </button
+	</form>
+</div>
+
+{{quote.items}}
