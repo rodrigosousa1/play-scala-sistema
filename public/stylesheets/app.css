@@ -5,6 +5,12 @@ body {
     font-size: 13px;
 }
 
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+
 [role=list] {
     cursor: pointer;
 }
@@ -97,7 +103,6 @@ h6 {
 }
 
 .content-box {
-    position: relative;
     min-height: 450px;
     border-bottom: 1px solid #dedede;
     margin-top: 10px;
@@ -114,4 +119,10 @@ h6 {
 
 dt:after {
     content: ":";
+}
+
+.table td.fit, 
+.table th.fit {
+    white-space: nowrap;
+    width: 2%;
 }

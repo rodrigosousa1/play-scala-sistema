@@ -1,11 +1,18 @@
 angular.module("sistema").controller("quoteController", function($scope, $http, quoteAPI) {
-    $scope.quotes = [];
-    $scope.quote = {};
-    $scope.quote.total = 0.00
+    $scope.quote = {"id": 0};
+    $scope.item = { "quoteId": 0, "id": 0 };
+    $scope.quote.total = 0.0
     $scope.quote.items = [];
 
+    $scope.itemMaster = { "quoteId": 0, "id": 0 };
+
+    var reset = function() {
+        $scope.item = angular.copy($scope.itemMaster);
+    };
+
+
     var _totalPrice = function(quantity, price) {
-        return parseInt(quantity) * parseFloat(price);
+        return quantity * price;
     }
 
     var _totalQuote = function(items) {
@@ -27,6 +34,7 @@ angular.module("sistema").controller("quoteController", function($scope, $http, 
         item.total = _totalPrice(item.quantity, item.price);
         $scope.quote.items.push(angular.copy(item));
         $scope.quote.total = _totalQuote($scope.quote.items);
+        reset();
     }
 
     loadQuotes();
