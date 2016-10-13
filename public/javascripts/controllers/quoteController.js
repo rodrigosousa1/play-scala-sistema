@@ -1,5 +1,5 @@
 angular.module("sistema").controller("quoteController", function($scope, $http, quoteAPI) {
-    $scope.quote = {"id": 0};
+    $scope.quote = { "id": 0 };
     $scope.item = { "quoteId": 0, "id": 0 };
     $scope.quote.total = 0.0
     $scope.quote.items = [];
@@ -35,6 +35,20 @@ angular.module("sistema").controller("quoteController", function($scope, $http, 
         $scope.quote.items.push(angular.copy(item));
         $scope.quote.total = _totalQuote($scope.quote.items);
         reset();
+    }
+
+    $scope.saveQuote = function(quote) {
+        $scope.quote.date = Date.parse(new Date());
+
+        quoteAPI.saveQuote(quote).success(function(data) {
+            loadQuotes();
+        });
+    }
+
+    $scope.deleteQuote = function(id) {
+        quoteAPI.deleteQuote(id).success(function(data) {
+            loadQuotes();
+        });
     }
 
     loadQuotes();

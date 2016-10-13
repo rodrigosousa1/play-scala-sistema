@@ -6,7 +6,6 @@
     <label for="service-description" class="control-label">Service description:</label>
     <input type="text" id="service-description" class="form-control" ng-model="quote.serviceDescription">
 </div>
-{{quote}}
 <div style="width: 75%;">
 	<table class="table">
 		<tr>
@@ -38,5 +37,5 @@
 	</form>
 </div>
 <div>
-	<button  class="btn btn-default" ng-click=""><span class="glyphicon glyphicon-floppy-disk"></span> Save </button>
+	<button  class="btn btn-default" ng-click="saveQuote(quote)"><span class="glyphicon glyphicon-floppy-disk"></span> Save </button>
 </div>

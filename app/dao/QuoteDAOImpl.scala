@@ -59,7 +59,7 @@ class QuoteDAOImpl @Inject() (dbConfigProvider: DatabaseConfigProvider) extends 
   }
 
   def saveDetails(quoteDetails: QuoteDetails): Future[Option[Int]] = {
-    val quote = Quote(quoteDetails.serviceTo, quoteDetails.serviceDescription, quoteDetails.date, quoteDetails.id)
+    val quote = Quote(quoteDetails.serviceTo, quoteDetails.serviceDescription, quoteDetails.date, quoteDetails.total, quoteDetails.id)
     val items = quoteDetails.items
     val insertQuote = quotesAutoInc += quote
 

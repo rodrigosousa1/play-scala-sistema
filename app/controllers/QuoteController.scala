@@ -34,5 +34,25 @@ class QuoteController @Inject() (qs: QuoteService, val messagesApi: MessagesApi)
     }
   }
 
+  def saveQuote() = Action.async(BodyParsers.parse.json) { implicit request =>
+    request.body.validate[QuoteDetails].fold(
+      errors => {
+        Future.successful(BadRequest(Json.obj("status" -> "KO", "message" -> JsError.toJson(errors))))
+      },
+      quote => {
+        qs.saveQuoteDetails(quote).map { res =>
+          Ok(Json.obj("status" -> "OK"))
+        }
+
+      })
+  }
+
+  def deleteQuote(id: Long) = Action.async { implicit request =>
+    val delete = qs.deleteQuote(id)
+    delete.map { res =>
+      Ok(Json.obj("status" -> "OK"))
+    }
+
+  }
 
 }

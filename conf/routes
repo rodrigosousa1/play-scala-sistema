@@ -9,7 +9,9 @@ GET     	/customer/:id                controllers.CustomerController.getCustomer
 DELETE    	/customer/:id		         controllers.CustomerController.deleteCustomer(id: Long)
 GET   		/customers				     controllers.CustomerController.getAllCustomers
 
+POST    	/quote					     controllers.QuoteController.saveQuote
 GET     	/quote/:id                   controllers.QuoteController.getQuoteById(id: Long)
+DELETE    	/quote/:id		             controllers.QuoteController.deleteQuote(id: Long)
 GET     	/quotes                      controllers.QuoteController.getAllQuotes
 
 
