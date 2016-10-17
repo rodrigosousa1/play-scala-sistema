@@ -38,7 +38,7 @@ angular.module("sistema").controller("quoteController", function($scope, $http, 
     }
 
     $scope.saveQuote = function(quote) {
-        $scope.quote.date = Date.parse(new Date());
+        $scope.quote.date = new Date().getTime();
 
         quoteAPI.saveQuote(quote).success(function(data) {
             loadQuotes();

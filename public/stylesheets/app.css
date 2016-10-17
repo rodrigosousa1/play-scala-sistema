@@ -5,10 +5,10 @@ body {
     font-size: 13px;
 }
 
-input[type=number]::-webkit-inner-spin-button, 
-input[type=number]::-webkit-outer-spin-button { 
-  -webkit-appearance: none; 
-  margin: 0; 
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }
 
 [role=list] {
@@ -121,8 +121,10 @@ dt:after {
     content: ":";
 }
 
-.table td.fit, 
+.table td.fit,
 .table th.fit {
     white-space: nowrap;
     width: 2%;
 }
+
+/*#5f92f2 cor azul spinner*/
