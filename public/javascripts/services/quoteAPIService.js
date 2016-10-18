@@ -20,12 +20,17 @@ angular.module("sistema").factory("quoteAPI", function ($http, config){
 		return $http.put(config.baseUrl + "/quote/" + quote.id, quote)
 	}
 
+	var _downloadPdf = function(id) {
+		return $http.get(config.baseUrl + "/generatePdf/" + id, { responseType: 'arraybuffer' })
+	}
+
 
 	return {
 		getQuotes: _getQuotes,
 		saveQuote: _saveQuote,
 		deleteQuote: _deleteQuote,
 		getQuoteById: _getQuoteById,
-		updateQuote: _updateQuote
+		updateQuote: _updateQuote,
+		downloadPdf: _downloadPdf
 	};
 });

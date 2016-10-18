@@ -1,1 +1,60 @@
-@()(implicit request: RequestHeader, messages: Messages)
+@(quote: QuoteDetails)(implicit request: RequestHeader, messages: Messages)
+@import com.github.nscala_time.time.Imports._
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/bootstrap.min.css")">
+    <link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/pdf.css")">
+</head>
+
+<body>
+    <table>
+    	<tr>
+    		<td><img style="padding-right: 35px;" width="235" height="75.60" src="/assets/images/pdf/logo.png"></img></td>
+    		<td>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer id metus ut est scelerisque posuere eu vitae libero.</td>
+    	</tr>
+    </table>
+    <h1 class="text-center" style="padding-top: 15px;">ORÇAMENTO</h1>
+    <p style="padding-top: 50px;">@quote.serviceTo</br>
+    Fusce tincidunt, arcu nec gravida malesuada, est dolor luctus diam, ut suscipit velit sem in tellus.</p>
+    <br/>
+    <p>Serviço: @quote.serviceDescription</p>
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th class="fit">Quant.</th>
+                    <th>Discriminação</th>
+                    <th class="fit">Preço</th>
+                    <th class="fit">Total</th>
+                </tr>
+            </thead>
+            @for(item <- quote.items ){
+	            <tr>
+	                <td>@item.quantity</td>
+	                <td>@item.description</td>
+	                <td>@item.price</td>
+	                <td>@item.total</td>
+	            </tr>
+           }    
+             <tr>
+             	<td colspan="2"></td>
+                <td>Total:</td>
+                <td>@quote.total</td>
+            </tr>
+        </table>
+    </div>
+   <div style="margin-top: 150px;">
+	    <p class="text-right">_________________________________</p>
+	    <p style="margin-left: 75%;">Atenciosamente</p>
+	     <div style="margin-left: 64%;">
+	     	</br></br>
+	        <p>Cidade, @quote.date.toString("dd/MM/yyyy")</br>
+	           Company X</br>
+	           mail@@mail.com</br>
+	           Contato: (xx) - xxxx-xxxx</p>
+	    </div>    
+    </div>
+</body>
+</html>

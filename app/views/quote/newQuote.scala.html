@@ -16,10 +16,10 @@
 			<th class="fit">Action</th>
 		</tr>
 		<tr ng-repeat="item in quote.items">
-			<td>{{item.quantity}}</td>
-			<td>{{item.description}}</td>
-			<td>{{item.price | currency	}}</td>
-			<td>{{item.total | currency }}</td>
+			<td>{{::item.quantity}}</td>
+			<td>{{::item.description}}</td>
+			<td>{{::item.price | currency	}}</td>
+			<td>{{::item.total | currency }}</td>
 			<td><a href="#"> <span style="color: #C33737;" class="glyphicon glyphicon-remove"></span></a></td>
 		</tr>
 		<tr align="right"> 

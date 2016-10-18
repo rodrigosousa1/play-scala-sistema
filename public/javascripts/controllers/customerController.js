@@ -1,4 +1,4 @@
-angular.module("sistema").controller("customerController", function($scope, $http, customerAPI) {
+angular.module("sistema").controller("customerController", function($scope, customerAPI) {
     $scope.customers = [];
     $scope.customer = {};
     $scope.customer.phones = [];

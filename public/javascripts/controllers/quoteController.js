@@ -1,4 +1,4 @@
-angular.module("sistema").controller("quoteController", function($scope, $http, quoteAPI) {
+angular.module("sistema").controller("quoteController", function($scope, quoteAPI) {
     $scope.quote = { "id": 0 };
     $scope.item = { "quoteId": 0, "id": 0 };
     $scope.quote.total = 0.0
@@ -39,7 +39,6 @@ angular.module("sistema").controller("quoteController", function($scope, $http, 
 
     $scope.saveQuote = function(quote) {
         $scope.quote.date = new Date().getTime();
-
         quoteAPI.saveQuote(quote).success(function(data) {
             loadQuotes();
         });
@@ -48,6 +47,13 @@ angular.module("sistema").controller("quoteController", function($scope, $http, 
     $scope.deleteQuote = function(id) {
         quoteAPI.deleteQuote(id).success(function(data) {
             loadQuotes();
+        });
+    }
+
+    $scope.downloadPdf = function(id) {
+        quoteAPI.downloadPdf(id).success(function(data) {
+            var file = new Blob([data], { type: 'application/pdf' });
+            saveAs(file, "orcamento.pdf");
         });
     }
 
