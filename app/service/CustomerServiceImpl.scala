@@ -15,10 +15,10 @@ class CustomerServiceImpl @Inject() (customerDAO: CustomerDAO) extends CustomerS
     customerDAO.getAllDetails
   }
   def saveCustomerDetails(customerDetails: CustomerDetails): Future[Int] = {
-  	customerDAO.saveDetails(customerDetails)
+    customerDAO.saveDetails(customerDetails)
   }
   def deleteCustomer(id: Long): Future[Int] = {
-  	customerDAO.delete(id)
+    customerDAO.delete(id)
   }
   def updateCustomerDetails(id: Long, customerDetails: CustomerDetails): Future[Int] = {
     customerDAO.updateDetails(id, customerDetails)

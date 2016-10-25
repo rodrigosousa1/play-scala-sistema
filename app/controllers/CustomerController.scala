@@ -5,17 +5,12 @@ import play.api._
 import play.api.mvc._
 import service.CustomerService
 import scala.concurrent.Future
-import models.{ Customer, Phone, CustomerDetails }
-import play.api.i18n.{ MessagesApi, Messages, I18nSupport }
+import models.CustomerDetails
 import play.api.libs.concurrent.Execution.Implicits._
 import play.api.libs.json._
 
 @Singleton
-class CustomerController @Inject() (cs: CustomerService, val messagesApi: MessagesApi) extends Controller with I18nSupport {
-
-  def index = Action { implicit request =>
-    Ok(views.html.customer.index())
-  }
+class CustomerController @Inject() (cs: CustomerService) extends Controller {
 
   def getAllCustomers() = Action.async { implicit request =>
     val customers = cs.getAllCustomersDetails

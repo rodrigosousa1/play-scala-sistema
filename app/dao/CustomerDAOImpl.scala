@@ -95,4 +95,5 @@ class CustomerDAOImpl @Inject() (dbConfigProvider: DatabaseConfigProvider) exten
     db.run(query.transactionally)
 
   }
+
 }

@@ -5,30 +5,27 @@ import play.api._
 import play.api.mvc._
 import service.QuoteService
 import scala.concurrent.Future
-import models.{ Quote, Item, QuoteDetails }
-import play.api.i18n.{ MessagesApi, Messages, I18nSupport }
+import models.QuoteDetails
 import play.api.libs.concurrent.Execution.Implicits._
 import play.api.libs.json._
 import it.innove.play.pdf.PdfGenerator
 
 @Singleton
-class QuoteController @Inject() (qs: QuoteService, val messagesApi: MessagesApi) extends Controller with I18nSupport {
+class QuoteController @Inject() (qs: QuoteService) extends Controller {
+
+  val host = "http://localhost:9000"
 
   def generatePdf(id: Long) = Action.async { implicit request =>
     val quotes = qs.getQuoteDetailsById(id)
     quotes.map { quote =>
       quote match {
-        case Some(x) => Ok(new PdfGenerator().toBytes(views.html.pdf.pdfTemplate(x), "http://localhost:9000")).as("application/pdf")
+        case Some(x) => Ok(new PdfGenerator().toBytes(views.html.pdf.pdfTemplate(x), host)).as("application/pdf")
         case None => NotFound(Json.obj("status" -> "NOT_FOUND"))
       }
     }
 
   }
-
-  def index = Action { implicit request =>
-    Ok(views.html.quote.index())
-  }
-
+  
   def getAllQuotes() = Action.async { implicit request =>
     val quotes = qs.getAllQuotes
     quotes.map { quotes =>
