@@ -52,7 +52,7 @@ class QuoteDAOImpl @Inject() (dbConfigProvider: DatabaseConfigProvider) extends 
   def getAllDetails(): Future[Seq[QuoteDetails]] = {
     val query = quotesQuery.joinLeft(itemsQuery).on(_.id === _.quoteId).result.map {
       _.groupBy(_._1).map {
-        case (q, i) => QuoteDetails(q.id, q.serviceTo, q.serviceDescription, q.date, i.flatMap(_._2),  q.total)
+        case (q, i) => QuoteDetails(q.id, q.serviceTo, q.serviceDescription, q.date, i.flatMap(_._2), q.total)
       }.to[Seq]
     }
     db.run(query)
@@ -74,13 +74,13 @@ class QuoteDAOImpl @Inject() (dbConfigProvider: DatabaseConfigProvider) extends 
   }
 
   def updateDetails(id: Long, quoteDetails: QuoteDetails): Future[Int] = {
-    val quote = Quote(quoteDetails.serviceTo, quoteDetails.serviceDescription, quoteDetails.date, quoteDetails.id)
+    val quote = Quote(quoteDetails.serviceTo, quoteDetails.serviceDescription, quoteDetails.date, quoteDetails.total, quoteDetails.id)
     val items = quoteDetails.items
 
     val updateQuote = quotesQuery.filter(_.id === id).update(quote)
     val updateItems = DBIO.sequence(items.map(item => itemsQuery.insertOrUpdate(item)))
 
-    val query =  updateItems andThen updateQuote
+    val query = updateItems andThen updateQuote
 
     db.run(query.transactionally)
   }

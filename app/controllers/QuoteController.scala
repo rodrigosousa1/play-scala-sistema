@@ -25,7 +25,7 @@ class QuoteController @Inject() (qs: QuoteService) extends Controller {
     }
 
   }
-  
+
   def getAllQuotes() = Action.async { implicit request =>
     val quotes = qs.getAllQuotes
     quotes.map { quotes =>
@@ -61,6 +61,20 @@ class QuoteController @Inject() (qs: QuoteService) extends Controller {
     delete.map { res =>
       Ok(Json.obj("status" -> "OK"))
     }
+
+  }
+
+  def updateQuote(id: Long) = Action.async(BodyParsers.parse.json) { implicit request =>
+    request.body.validate[QuoteDetails].fold(
+      errors => {
+        Future.successful(BadRequest(Json.obj("status" -> "KO", "message" -> JsError.toJson(errors))))
+      },
+      quote => {
+        qs.updateQuoteDetails(id, quote).map { res =>
+          Ok(Json.obj("status" -> "OK"))
+        }
+
+      })
 
   }
 

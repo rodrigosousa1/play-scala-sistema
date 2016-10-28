@@ -6,10 +6,8 @@ GET   		/customers   		 		 controllers.CustomerController.getAllCustomers
 #GET   		/customers   		 		 controllers.CustomerController.getAllCustomers(page: Int ?= 1)
 #GET   		/customers/:page			 controllers.CustomerController.getAllCustomers(page: Int)
 
-
-
-
-POST    	/quote/						 controllers.QuoteController.saveQuote
+POST    	/quote  					 controllers.QuoteController.saveQuote
+PUT			/quote/:id      			 controllers.QuoteController.updateQuote(id: Long)
 GET     	/quote/:id 		             controllers.QuoteController.getQuoteById(id: Long)
 DELETE    	/quote/:id		             controllers.QuoteController.deleteQuote(id: Long)
 GET     	/quotes                      controllers.QuoteController.getAllQuotes
