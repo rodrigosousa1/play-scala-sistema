@@ -1,7 +1,7 @@
 package dao
 
 import javax.inject._
-import models.{ Quote, QuoteDetails }
+import models.{ Quote, QuoteDetails, Item }
 import play.api.db.slick.DatabaseConfigProvider
 import slick.driver.JdbcProfile
 import scala.concurrent.Future
@@ -77,10 +77,15 @@ class QuoteDAOImpl @Inject() (dbConfigProvider: DatabaseConfigProvider) extends 
     val quote = Quote(quoteDetails.serviceTo, quoteDetails.serviceDescription, quoteDetails.date, quoteDetails.total, quoteDetails.id)
     val items = quoteDetails.items
 
-    val updateQuote = quotesQuery.filter(_.id === id).update(quote)
-    val updateItems = DBIO.sequence(items.map(item => itemsQuery.insertOrUpdate(item)))
+    println(quote.id)
 
-    val query = updateItems andThen updateQuote
+    val updateQuote = quotesQuery.filter(_.id === id).update(quote)
+    val delete = itemsQuery.filter(_.quoteId === quote.id).delete
+    val insertNewItems = delete.flatMap { res =>
+      itemsQuery ++= items
+    }
+
+    val query = insertNewItems andThen updateQuote
 
     db.run(query.transactionally)
   }
