@@ -77,8 +77,6 @@ class QuoteDAOImpl @Inject() (dbConfigProvider: DatabaseConfigProvider) extends 
     val quote = Quote(quoteDetails.serviceTo, quoteDetails.serviceDescription, quoteDetails.date, quoteDetails.total, quoteDetails.id)
     val items = quoteDetails.items
 
-    println(quote.id)
-
     val updateQuote = quotesQuery.filter(_.id === id).update(quote)
     val delete = itemsQuery.filter(_.quoteId === quote.id).delete
     val insertNewItems = delete.flatMap { res =>

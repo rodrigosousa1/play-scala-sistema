@@ -1,12 +1,18 @@
 @(quote: QuoteDetails)(implicit request: RequestHeader)
 @import com.github.nscala_time.time.Imports._
+@import util.FormatNumber
+
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
      <link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/bootstrap.min.css")">
-    <style>
-        .table td.fit, .table th.fit { white-space: nowrap; width: 2%; }
+    <style type="text/css">
+        .table td.fit,
+        .table th.fit { 
+          white-space: nowrap; 
+          width: 2%; 
+        }
     </style>
 </head>
 <body>
@@ -21,34 +27,44 @@
     Fusce tincidunt, arcu nec gravida malesuada, est dolor luctus diam, ut suscipit velit sem in tellus.</p>
     <br/>
     <p>Serviço: @quote.serviceDescription</p>
-        <table class="table">
+        <table class="table table-condensed table-bordered">
             <thead>
                 <tr>
-                    <th class="fit">Quant.</th>
-                    <th>Discriminação</th>
-                    <th class="fit">Preço</th>
-                    <th class="fit">Total</th>
+                    <th class="text-center">Quant.</th>
+                    <th class="text-center">Discriminação</th>
+                    <th class="text-center">Preço</th>
+                    <th class="text-center">Total</th>
                 </tr>
             </thead>
-            @for(item <- quote.items ){
-	            <tr>
-	                <td>@item.quantity</td>
-	                <td>@item.description</td>
-	                <td>@item.price</td>
-	                <td>@item.total</td>
-	            </tr>
-           }    
-             <tr>
-             	<td colspan="2"></td>
-                <td>Total:</td>
-                <td>@quote.total</td>
-            </tr>
+            @for(item <- quote.items) {
+                <tr>
+                  <td class="fit">@item.quantity</td>
+                  <td>@item.description</td>
+                  <td class="fit text-right">@FormatNumber.format(item.price)</td>
+                  <td class="fit text-right">@FormatNumber.format(item.total)</td>
+                </tr>
+            }
+            @for(x <- quote.items.length to 5) {
+                 <tr>
+                  <td>&nbsp</td>
+                  <td>&nbsp</td>
+                  <td>&nbsp</td>
+                  <td>&nbsp</td>
+                </tr>
+            }
+            <tfoot>
+                 <tr>
+                 	 <td colspan="2"></td>
+                    <td style="font-weight: bold;">Total</td>
+                    <td class="text-right">@FormatNumber.format(quote.total)</td>
+                </tr>
+            </tfoot>
         </table>
-   <div style="margin-top: 150px;">
+   <div style="margin-top: 130px;">
 	    <p class="text-right">_________________________________</p>
 	    <p style="margin-left: 75%;">Atenciosamente</p>
 	     <div style="margin-left: 64%;">
-	     	</br></br>
+	     	</br>
 	        <p>Cidade, @quote.date.toString("dd/MM/yyyy")</br>
 	           Company X</br>
 	           mail@@mail.com</br>
@@ -57,3 +73,4 @@
     </div>
 </body>
 </html>
+

@@ -19,7 +19,7 @@ class QuoteController @Inject() (qs: QuoteService) extends Controller {
     val quotes = qs.getQuoteDetailsById(id)
     quotes.map { quote =>
       quote match {
-        case Some(x) => Ok(new PdfGenerator().toBytes(views.html.pdf.pdfTemplate(x), host)).as("application/pdf")
+        case Some(x) => Ok(new PdfGenerator().toBytes(views.html.pdf.pdf(x), host)).as("application/pdf")
         case None => NotFound(Json.obj("status" -> "NOT_FOUND"))
       }
     }
